@@ -73,3 +73,11 @@ The build script creates a deterministic `.skill` archive from an explicit allow
 Apache-2.0. See `LICENSE`.
 
 Third-party screenshots and source materials used during private planning are not included and are not licensed by this repository.
+
+## Built by Andrew Luxem
+
+CRM architect and lifecycle marketer. 20+ years building retention systems, behavioral automation, and customer engagement programs at Amazon, Ancestry, Stanley Black & Decker, Overstock.com, Bed Bath & Beyond, and Big Dill Pickleball Co., with applied engagement architecture for commerce, sports, and entertainment organizations.
+
+[LinkedIn](https://www.linkedin.com/in/andrewluxem) · [andrew@andrewluxem.com](mailto:andrew@andrewluxem.com)
+
+This is an independent personal project. It is not affiliated with, sponsored by, or endorsed by any current or former employer, and it contains no proprietary employer material.
