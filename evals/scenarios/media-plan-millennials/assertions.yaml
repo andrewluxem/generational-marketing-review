@@ -1,0 +1,191 @@
+# Assertions for the media-plan-millennials evaluation scenario.
+#
+# Two explicitly separated groups:
+#   deterministic - checked by scripts/validate_eval.py with no LLM.
+#   semantic      - require an LLM grader; results are recorded in
+#                   grader-output.json and consumed (not recomputed) by the
+#                   validator.
+#
+# Each assertion has: id, description, severity (required|advisory),
+# evaluation (deterministic|llm), applies_to (baseline|skill|both).
+#
+# Gating rule: the build fails if any required assertion fails. For required
+# semantic assertions, an "uncertain" grader result counts as a failure, and
+# gating is applied to the skill output. Baseline results are recorded for
+# comparison and are informational only.
+#
+# rubric_dimensions is the single source of truth for the twelve rubric
+# dimensions. The deterministic structural check normalizes these canonical
+# names (lowercase, drop punctuation and conjunctions) and requires each to
+# appear in the skill output. Matchers are not tuned to any specific output.
+
+version: 2
+scenario: media-plan-millennials
+
+rubric_dimensions:
+  - Audience definition
+  - Customer need and context
+  - Value proposition
+  - Message and tone
+  - Creative and format
+  - Channel and platform fit
+  - Trust and proof
+  - Offer and purchase friction
+  - Customer experience and fulfillment
+  - Inclusion, accessibility, privacy, and ethics
+  - Measurement and experimentation
+  - Evidence quality
+
+deterministic:
+  - id: files-present
+    description: All required scenario files exist in the scenario directory.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: run-metadata-valid
+    description: run-metadata.json parses and contains the required run and isolation fields.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: grader-output-schema-valid
+    description: grader-output.json parses and matches the required grader-result schema.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: artifact-hashes-bound
+    description: Every recorded artifact SHA-256 matches the recomputed hash of the file on disk.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: grader-binding-valid
+    description: Each grader result set is cryptographically bound to the exact graded output, input, assertions, and grader prompt.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: verdict-present
+    description: The skill output states an explicit fit verdict.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: confidence-present
+    description: The skill output states an explicit confidence level.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: audience-definition-check-present
+    description: The skill output includes an audience-definition check section.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: scorecard-present
+    description: The skill output includes a scorecard.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: twelve-dimensions-present
+    description: The skill output scorecard names all twelve canonical rubric dimensions.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: priority-fixes-present
+    description: The skill output includes prioritized fixes.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: test-plan-present
+    description: The skill output includes a test plan.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: final-recommendation-present
+    description: The skill output includes a final recommendation.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: stereotype-flags-present
+    description: The skill output includes a stereotype, evidence, and freshness flags section.
+    severity: advisory
+    evaluation: deterministic
+    applies_to: skill
+  - id: evidence-register-present
+    description: The skill output includes an evidence register.
+    severity: advisory
+    evaluation: deterministic
+    applies_to: skill
+
+semantic:
+  - id: no-invented-statistics
+    description: The review does not invent or assert quantitative statistics, percentages, dates, birth ranges, or platform rankings as current facts that were not supplied in the plan.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: no-deterministic-generational-behavior
+    description: The review does not present generational or Millennial behavior as deterministic or universal; it treats generation as a lens or hypothesis, not proof of behavior.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: flags-unsupported-sustainability-claim
+    description: The review explicitly identifies the plan claim that Millennials universally prioritize sustainability as unsupported or an assumption, not an established fact.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: distinguishes-evidence-types
+    description: The review distinguishes what is observed in the plan from what is inferred and what is assumed, for example by labeling claims or otherwise separating evidence from assumption.
+    severity: required
+    evaluation: llm
+    applies_to: skill
+  - id: recognizes-strong-element
+    description: The review recognizes at least one genuinely strong element of the plan, such as the post-purchase onboarding and refill-reminder email flow.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: challenges-impressions-metric
+    description: The review challenges impressions as the dominant success metric and calls for outcome measures tied to conversion, incrementality, or retention.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: proposes-measurable-tests
+    description: The review proposes measurable tests or experiments rather than simply replacing one unproven assumption with another assertion.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: avoids-discriminatory-targeting
+    description: The review avoids recommending discriminatory, exclusionary, or stereotype-based audience targeting.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: ties-verdict-to-evidence
+    description: The review ties its overall verdict or recommendation to specific evidence and the plan material risks rather than to a vague overall impression.
+    severity: required
+    evaluation: llm
+    applies_to: skill
+  - id: weak-customer-objective
+    description: The review identifies that the plan customer objective is weak, vague, or not tied to a real customer need or moment.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: single-platform-concentration
+    description: The review identifies the excessive concentration of budget and roles on a single social platform as a risk.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: reach-only-creator
+    description: The review challenges selecting creators mainly on reach and calls for credibility, fit, or tracked outcomes instead.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: missing-incrementality-retention
+    description: The review identifies the absence of incrementality measurement and of repeat-purchase or retention measurement as gaps.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: cac-price-aov-contradiction
+    description: The review surfaces the tension between the CAC ceiling, the first-order price, and the revenue target that makes profitability depend on retention or a higher average order value.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: defensible-channel-role-recommendations
+    description: The review calls for channel roles to be justified by evidence, objective, or customer behavior rather than asserted.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
