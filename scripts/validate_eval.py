@@ -136,13 +136,25 @@ def _split_pair(text):
     return text[:idx].strip(), _coerce(text[idx + 1:])
 
 
+def _is_quoted_scalar(text):
+    """True when text is fully enclosed in matching single or double quotes."""
+    text = text.strip()
+    return len(text) >= 2 and (
+        (text[0] == '"' and text[-1] == '"') or (text[0] == "'" and text[-1] == "'")
+    )
+
+
 def parse_block_yaml(text):
     """Parse the constrained block-YAML grammar used by assertions.yaml.
 
     Supports top-level "key: value" scalars, top-level "key:" introducing a
-    block sequence, sequence items that are scalars ("- value") or mappings
+    block sequence, sequence items that are scalars ("- value"), quoted scalars
+    that may contain colons ('- "Category: Household cleaning"'), and mappings
     ("- key: value" with deeper-indented "key: value" continuation lines).
     Full-line comments and blank lines are ignored. Not a general parser.
+
+    A colon-bearing scalar sequence item MUST be quoted; an unquoted
+    "- key: value" is a mapping by design (that is valid YAML mapping syntax).
     """
     root = {}
     lines = text.splitlines()
@@ -174,7 +186,11 @@ def parse_block_yaml(text):
                     break
                 if s2.startswith("- "):
                     rem = s2[2:].strip()
-                    if ":" in rem:
+                    if _is_quoted_scalar(rem):
+                        # A fully quoted item is a scalar even if it contains ':'.
+                        seq.append(_coerce(rem))
+                        i += 1
+                    elif ":" in rem:
                         item = {}
                         k, v = _split_pair(rem)
                         item[k] = v
@@ -342,6 +358,10 @@ def structural_check(assertion_id, skill_text, dimensions):
 # Schema validators
 # --------------------------------------------------------------------------- #
 def validate_metadata_schema(report, meta):
+    if not isinstance(meta, dict):
+        report.fail("run-metadata.json is not an object")
+        return False
+
     ok = True
     for path in REQUIRED_METADATA_FIELDS:
         value, found = dotted_get(meta, path)
@@ -615,8 +635,10 @@ def validate_scenario(scenario_dir):
     meta_ok = validate_metadata_schema(report, meta) if meta is not None else False
     grader_ok = validate_grader_schema(report, grader) if grader is not None else False
 
-    # Cryptographic binding (needs both artifacts + assertions).
-    if meta is not None and grader is not None:
+    # Cryptographic binding (needs both artifacts + assertions). Guard on
+    # confirmed schema/type validity so a non-dict JSON root produces a normal
+    # failed report instead of a traceback inside verify_hash_binding.
+    if meta_ok and grader_ok:
         verify_hash_binding(report, scenario_dir, meta, grader, assertions)
 
     # Structural (deterministic) assertions on the skill output.

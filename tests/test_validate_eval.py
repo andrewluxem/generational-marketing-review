@@ -251,6 +251,34 @@ class ValidateEvalTests(unittest.TestCase):
         # also fails. Assert the structural signal is present.
         self.assertHasFailure(failures(d), "twelve-dimensions-present")
 
+    def test_run_metadata_root_is_list_does_not_crash(self):
+        d = self._dir()
+        dump_json(d, "run-metadata.json", [1, 2, 3])
+        fails = failures(d)  # must return normally, not raise
+        self.assertHasFailure(fails, "run-metadata.json is not an object")
+
+    def test_grader_output_root_is_list_skips_binding(self):
+        d = self._dir()
+        dump_json(d, "grader-output.json", ["not", "an", "object"])
+        called = []
+        orig = ve.verify_hash_binding
+        ve.verify_hash_binding = lambda *a, **k: called.append(True)
+        try:
+            fails = failures(d)  # must return normally, not raise
+        finally:
+            ve.verify_hash_binding = orig
+        self.assertHasFailure(fails, "grader-output.json is not an object")
+        self.assertEqual(called, [],
+                         "verify_hash_binding must not run on an invalid grader-output.json root")
+
+    def test_quoted_colon_scalar_sequence_item_must_be_quoted(self):
+        # A colon-bearing scalar sequence item MUST be quoted to parse as a string.
+        parsed = ve.parse_block_yaml('rubric_dimensions:\n  - "Category: Household cleaning"\n')
+        self.assertEqual(parsed["rubric_dimensions"], ["Category: Household cleaning"])
+        # By design, the UNQUOTED "- key: value" form is YAML mapping syntax.
+        parsed2 = ve.parse_block_yaml('seq:\n  - Category: Household cleaning\n')
+        self.assertEqual(parsed2["seq"], [{"Category": "Household cleaning"}])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
