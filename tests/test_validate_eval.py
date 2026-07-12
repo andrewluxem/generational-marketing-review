@@ -6,8 +6,10 @@ the validator's own hashing/prompt helpers, then either asserts it passes or
 mutates exactly one thing and asserts the specific required failure. No network,
 no third-party dependencies, and no tests/scenarios/ tree is created.
 """
+import contextlib
 import copy
 import importlib.util
+import io
 import json
 import tempfile
 import unittest
@@ -278,6 +280,53 @@ class ValidateEvalTests(unittest.TestCase):
         # By design, the UNQUOTED "- key: value" form is YAML mapping syntax.
         parsed2 = ve.parse_block_yaml('seq:\n  - Category: Household cleaning\n')
         self.assertEqual(parsed2["seq"], [{"Category": "Household cleaning"}])
+
+    def _scenarios_root(self, names):
+        """Build a temp SCENARIOS_DIR holding one valid scenario per name."""
+        root = Path(tempfile.mkdtemp(prefix="ve-multi-"))
+        self.addCleanup(lambda: __import__("shutil").rmtree(root, ignore_errors=True))
+        for name in names:
+            (root / name).mkdir()
+            build_valid(root / name)
+        return root
+
+    def test_multiple_scenarios_discovered_and_independent(self):
+        # main() discovers and validates every scenario directory under
+        # SCENARIOS_DIR independently, using the same data-driven per-scenario
+        # path — no scenario name is hardcoded. Adding a second scenario must not
+        # disturb a passing one, and a required failure in one scenario must not
+        # mask or corrupt the other. This guards the multi-scenario guarantee the
+        # asset-review (email-gen-x) scenario relies on: the plan-review scenario
+        # keeps passing unchanged while a second, independently graded scenario is
+        # added alongside it.
+        root = self._scenarios_root(["scenario-a", "scenario-b"])
+        orig = ve.SCENARIOS_DIR
+        ve.SCENARIOS_DIR = root
+        self.addCleanup(lambda: setattr(ve, "SCENARIOS_DIR", orig))
+
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = ve.main()
+        out = buf.getvalue()
+        self.assertEqual(rc, 0, msg=out)
+        self.assertIn("[scenario-a]", out)
+        self.assertIn("[scenario-b]", out)
+        self.assertIn("Scenarios checked : 2", out)
+
+        # Break ONLY scenario-b; scenario-a must still validate with no failures.
+        (root / "scenario-b" / "skill-output.md").write_text(
+            skill_output() + "\nTAMPERED\n", "utf-8")
+        self.assertEqual(failures(root / "scenario-a"), [])
+        self.assertHasFailure(failures(root / "scenario-b"), "artifact-hashes-bound")
+
+        # main() now fails overall (exit 1) but still reports BOTH scenarios.
+        buf2 = io.StringIO()
+        with contextlib.redirect_stdout(buf2):
+            rc2 = ve.main()
+        out2 = buf2.getvalue()
+        self.assertEqual(rc2, 1)
+        self.assertIn("[scenario-a]", out2)
+        self.assertIn("[scenario-b]", out2)
 
 
 if __name__ == "__main__":
