@@ -1,0 +1,353 @@
+# Assertions for the cross-generation-adults-25-54 evaluation scenario.
+#
+# This scenario tests the skill's FULL-PLAN-REVIEW workflow (an integrated
+# acquisition campaign) applied to a deliberately ambiguous target: "adults
+# 25–54" treated as one homogeneous audience. It exercises the skill's
+# cross-generation-comparison method — separating strategy that may stay common
+# from strategy that should be segmented or tested — without pre-segmenting the
+# range for the model. The deterministic output contract is the same as the
+# other plan- and asset-review scenarios because SKILL.md routes every review to
+# the same output contract and the same review-report-template.md; only the
+# semantic assertions are scenario-specific.
+#
+# Two explicitly separated groups:
+#   deterministic - checked by scripts/validate_eval.py with no LLM.
+#   semantic      - require an LLM grader; results are recorded in
+#                   grader-output.json and consumed (not recomputed) by the
+#                   validator.
+#
+# Each assertion has: id, description, severity (required|advisory),
+# evaluation (deterministic|llm), applies_to (baseline|skill|both).
+#
+# Gating rule: the build fails if any required assertion fails. For required
+# semantic assertions, an "uncertain" grader result counts as a failure, and
+# gating is applied to the skill output. Baseline results are recorded for
+# comparison and are informational only.
+#
+# Assertions were written and frozen BEFORE either model run and before grading.
+# The required set is the analytical core a competent cross-generation review
+# must reach: that a 25–54 band is not one generation, that age is not proof of
+# household/income/life stage, that discriminatory targeting is avoided, that
+# common strategy is separated from adaptation candidates, and that adaptations
+# are tested rather than assumed. Strength-recognition, tone nuance, and the most
+# output-dependent stylistic and format checks are kept advisory so the set does
+# not manufacture a winner, and an honest tie is preserved wherever both outputs
+# satisfy a requirement.
+#
+# Design rationale — source-to-landing-continuity-gap is advisory by design, set
+# in this version before any model run. The check looks for one specific framing:
+# naming the missing message continuity from source or segment to the single
+# universal landing page (and the identical nurture) as a funnel gap. That framing
+# is one valid way among several to critique the one-message-everywhere funnel, and
+# whether any given review reaches for it is output-dependent, so it is not part of
+# the required analytical floor. Scoring it advisory keeps a genuine miss visible
+# as a warning without manufacturing a required failure over one optional framing.
+#
+# rubric_dimensions is the single source of truth for the twelve rubric
+# dimensions. The deterministic structural check normalizes these canonical
+# names (lowercase, drop punctuation and conjunctions) and requires each to
+# appear in the skill output. Matchers are not tuned to any specific output.
+#
+# The advisory cross-generation-section-present check uses the validator's
+# data-driven, scenario-agnostic `any_of` capability: a pipe-delimited list of
+# acceptable section phrases; the check passes if any normalized phrase appears
+# in the skill output. Nothing here is hardcoded in the validator.
+
+version: 3
+scenario: cross-generation-adults-25-54
+
+rubric_dimensions:
+  - Audience definition
+  - Customer need and context
+  - Value proposition
+  - Message and tone
+  - Creative and format
+  - Channel and platform fit
+  - Trust and proof
+  - Offer and purchase friction
+  - Customer experience and fulfillment
+  - Inclusion, accessibility, privacy, and ethics
+  - Measurement and experimentation
+  - Evidence quality
+
+deterministic:
+  - id: files-present
+    description: All required scenario files exist in the scenario directory.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: run-metadata-valid
+    description: run-metadata.json parses and contains the required run and isolation fields.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: grader-output-schema-valid
+    description: grader-output.json parses and matches the required grader-result schema.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: artifact-hashes-bound
+    description: Every recorded artifact SHA-256 matches the recomputed hash of the file on disk.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: grader-binding-valid
+    description: Each grader result set is cryptographically bound to the exact graded output, input, assertions, and grader prompt.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: verdict-present
+    description: The skill output states an explicit fit verdict.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: confidence-present
+    description: The skill output states an explicit confidence level.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: audience-definition-check-present
+    description: The skill output includes an audience-definition check section.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: scorecard-present
+    description: The skill output includes a scorecard.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: twelve-dimensions-present
+    description: The skill output scorecard names all twelve canonical rubric dimensions.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: priority-fixes-present
+    description: The skill output includes prioritized fixes.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: test-plan-present
+    description: The skill output includes a test plan or measurement recommendations.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: final-recommendation-present
+    description: The skill output includes a final recommendation.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: stereotype-flags-present
+    description: The skill output includes a stereotype, evidence, and freshness flags section.
+    severity: advisory
+    evaluation: deterministic
+    applies_to: skill
+  - id: evidence-register-present
+    description: The skill output includes an evidence register.
+    severity: advisory
+    evaluation: deterministic
+    applies_to: skill
+  - id: cross-generation-section-present
+    description: The skill output surfaces a cross-generation or shared-versus-adapted treatment of the age band, matched by any acceptable section phrase.
+    severity: advisory
+    evaluation: deterministic
+    applies_to: skill
+    any_of: "Cross-generation comparison | cross-generation | shared strategy and adaptations | shared strategy | shared versus adapted | shared and adapted | common versus adapted | what can remain common | remain common | shared strengths | shared elements | adapt by segment"
+
+semantic:
+  # --- Shared cross-scenario semantic assertions ---
+  - id: no-invented-statistics
+    description: The review does not invent or assert quantitative statistics, percentages, dates, birth-year ranges, cohort sizes, channel-usage shares, or platform-preference figures as current facts that were not supplied in the plan.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: no-deterministic-generational-behavior
+    description: The review does not present generational behavior, values, or channel preferences as deterministic or universal; it treats generation as a lens or hypothesis, not proof of how the audience will behave.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: avoids-discriminatory-targeting
+    description: The review avoids recommending discriminatory, exclusionary, or stereotype-based targeting and does not endorse the plan's age-based framing as a sound targeting strategy.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: distinguishes-evidence-types
+    description: The review distinguishes what is observed in the plan from what is inferred and what is assumed, for example by labeling claims or otherwise separating evidence from assumption.
+    severity: required
+    evaluation: llm
+    applies_to: skill
+  - id: recognizes-strong-element
+    description: The review recognizes at least one genuinely strong element of the plan, such as the transparent pricing comparison, the transparent cancellation and renewal terms, or the clear product workflow.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: proposes-measurable-tests
+    description: The review proposes measurable tests or experiments rather than simply replacing one unproven assumption with another assertion.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: ties-verdict-to-evidence
+    description: The review ties its overall verdict or recommendation to specific evidence and the plan's material risks rather than to a vague overall impression.
+    severity: required
+    evaluation: llm
+    applies_to: skill
+  # --- Scenario-specific semantic assertions (required core) ---
+  - id: range-not-one-generation
+    description: The review identifies that adults 25–54 are not a single generation and rejects treating the whole band as one audience with one motivation.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: range-spans-cohorts-life-stages
+    description: The review recognizes that the 25–54 range spans multiple cohorts and/or life stages (for example younger adults, mid-life adults, and older adults) rather than a single cohort.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: qualifies-generational-boundaries
+    description: The review avoids asserting exact generational birth-year boundaries as current fact; where it names cohorts it qualifies that boundaries vary by definition and that age alone does not fix cohort membership.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: rejects-millennials-like-label
+    description: The review rejects or challenges the plan's "Millennials and people like them" label as inaccurate or reductive for a 25–54 range.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: age-not-proof-of-status
+    description: The review does not accept age within the range as proof of household status, income, parenthood, homeownership, financial need, or channel behavior.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: challenges-universal-household-assumption
+    description: The review challenges the assumption that everyone aged 25–54 is a homeowner with children.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: challenges-universal-income-priority-assumption
+    description: The review challenges the assumptions that everyone in the range is at peak earning age and that all share identical money priorities.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: flags-forced-slang-and-age-coded-tone
+    description: The review flags the forced youthful slang and the age-coded or patronizing framing ("grown-up money stuff that doesn't make you feel like a kid") as tone risks that may feel forced or exclusionary across the range, rather than treating them as sound audience empathy.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: challenges-streaming-generation-claim
+    description: The review challenges the claim that "25–54 is the streaming generation" and that streaming therefore reaches the whole audience, treating it as an unsupported assumption.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: challenges-busy-parent-podcast-assumption
+    description: The review challenges the assumption that podcasts reach the whole audience because "busy parents always listen during commutes" as unsupported.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: challenges-social-younger-email-older-split
+    description: The review challenges the simplistic split of paid social for the younger half and email for the older half as an unevidenced age-based channel assumption.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: challenges-one-creative-concept-across-band
+    description: The review challenges running one creative concept, spokesperson, message, CTA, and visual treatment across the entire age band and every channel with no tested adaptations.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: distinguishes-shared-from-adapted
+    description: The review distinguishes campaign elements that can reasonably stay common from those that should be adapted or tested for different segments.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: recommends-need-lifestage-behavior-segmentation
+    description: The review recommends segmentation or targeting by customer need, life stage, financial complexity, or behavior rather than by generation or age band alone.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: recommends-testing-adaptations-not-assuming
+    description: The review recommends testing cohort or need-state adaptations rather than assuming them, and does not simply replace one age stereotype with several smaller stereotypes.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: impressions-reach-insufficient
+    description: The review identifies impressions and reach as insufficient primary success metrics for a paid annual-subscription acquisition objective and calls for subscription or outcome measurement.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: missing-incrementality-margin-retention
+    description: The review identifies that the measurement plan is missing incrementality or a holdout, contribution-margin or payback or CAC-to-value, and first-year renewal, cancellation, refund-quality, or retention measurement.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  # Advisory by design (see the design rationale in the header): this assertion
+  # tests one specific, output-dependent continuity framing rather than a
+  # required-floor behavior. Its id, description, and list position are unchanged,
+  # so format_semantic_assertions and the grader prompt are unaffected by severity.
+  - id: source-to-landing-continuity-gap
+    description: The review identifies the lack of message continuity from source or segment to the single universal landing page (and the identical nurture) as a funnel gap.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: flags-forced-account-creation
+    description: The review identifies the required account creation before the product workflow or demo is shown as conversion friction for cold prospects and recommends a lower-friction path.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: flags-mobile-accessibility-gaps
+    description: The review identifies the missing mobile-layout guidance and accessibility guidance (captions or transcripts, alt text, contrast, screen-reader support) as gaps to fix.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: challenges-trusted-by-every-generation-claim
+    description: The review challenges "the financial app trusted by every generation" as an unsupported trust claim that lacks substantiation.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  # --- Scenario-specific semantic assertions (advisory) ---
+  - id: challenges-adulting-made-easy
+    description: The review challenges the universal "adulting made easy" framing as an unsupported assumption about what the whole range wants and/or as potentially patronizing.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: identifies-weak-duplicated-channel-roles
+    description: The review identifies that every channel is given the same vague "drive awareness and conversion" role with no mapping to a customer state, decision, or measured behavior.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: weak-budget-justification
+    description: The review notes that the budget allocation is itemized and sums correctly but its justification ("where our audience spends its time") is weak or unevidenced.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: recognizes-price-comparison-strength
+    description: The review recognizes the clear $96/year versus $144/year annual-versus-monthly price comparison as a genuinely useful and credible element that speaks to the customer's justify-the-annual-fee objective.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: recognizes-cancellation-renewal-strength
+    description: The review recognizes the transparent cancel-anytime terms, the 7-day pre-charge renewal reminder, and the 30-day prorated refund as genuine trust-building details worth preserving.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: recognizes-product-workflow-strength
+    description: The review recognizes the clear five-step budgeting workflow description as a credible product demonstration of how the service works.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: flags-unnecessary-form-friction
+    description: The review identifies the long capture form (age, ZIP, household income, number of children, homeownership status, and bank) as unnecessary friction and/or a privacy concern for a first touch.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: preserves-common-strengths-not-over-fragment
+    description: The review preserves genuinely common strengths (transparent pricing, clear terms, credible demo, defined conversion event, low-friction purchase) instead of demanding unnecessary fragmentation into many micro-segments.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: proposes-test-matrix-common-vs-adapted
+    description: The review proposes a concrete, preplanned test matrix or experiment plan comparing common versus adapted treatments (message, channel, creator or spokesperson, landing modules, or nurture) rather than only optimizing reactively after launch.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: defines-decision-rules-common-vs-segment
+    description: The review defines decision rules for when one common campaign is sufficient and when segmentation or adaptation is justified.
+    severity: advisory
+    evaluation: llm
+    applies_to: both

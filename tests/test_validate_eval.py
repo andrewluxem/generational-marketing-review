@@ -49,7 +49,7 @@ GRADER_PROMPT_MD = (
 )
 
 
-def assertions_yaml():
+def assertions_yaml(extra_det=()):
     lines = ["version: 2", "scenario: unit-fixture", "", "rubric_dimensions:"]
     for d in DIMENSIONS:
         lines.append(f"  - {d}")
@@ -73,6 +73,12 @@ def assertions_yaml():
         lines += [f"  - id: {aid}", f"    description: check {aid.replace('-', ' ')}",
                   f"    severity: {sev}", "    evaluation: deterministic",
                   f"    applies_to: {applies}"]
+    # Optional extra deterministic assertions carrying a data-driven any_of field:
+    # (id, severity, applies_to, pipe-delimited-phrases).
+    for aid, sev, applies, any_of in extra_det:
+        lines += [f"  - id: {aid}", f"    description: check {aid.replace('-', ' ')}",
+                  f"    severity: {sev}", "    evaluation: deterministic",
+                  f"    applies_to: {applies}", f'    any_of: "{any_of}"']
     lines += ["", "semantic:"]
     for aid, sev, applies in SEMANTIC:
         lines += [f"  - id: {aid}", f"    description: semantic check {aid.replace('-', ' ')}",
@@ -106,11 +112,16 @@ def totals(results):
     return t
 
 
-def build_valid(dirpath):
-    """Write a fully consistent, passing scenario into dirpath."""
+def build_valid(dirpath, assertions_text=None):
+    """Write a fully consistent, passing scenario into dirpath.
+
+    assertions_text overrides the default fixture assertions.yaml (used to
+    exercise the data-driven any_of deterministic check); the semantic set is
+    unchanged, so grader coverage and binding stay consistent.
+    """
     d = Path(dirpath)
     (d / "input.md").write_text(INPUT_MD, "utf-8")
-    (d / "assertions.yaml").write_text(assertions_yaml(), "utf-8")
+    (d / "assertions.yaml").write_text(assertions_text or assertions_yaml(), "utf-8")
     (d / "grader-prompt.md").write_text(GRADER_PROMPT_MD, "utf-8")
     (d / "baseline-output.md").write_text("# Baseline\n\nFree-form review text of adequate length. " * 5 + "\n", "utf-8")
     (d / "skill-output.md").write_text(skill_output(), "utf-8")
@@ -272,6 +283,43 @@ class ValidateEvalTests(unittest.TestCase):
         self.assertHasFailure(fails, "grader-output.json is not an object")
         self.assertEqual(called, [],
                          "verify_hash_binding must not run on an invalid grader-output.json root")
+
+    def test_any_of_section_present_helper(self):
+        # Case- and punctuation-insensitive substring match across pipe-delimited
+        # phrases; the normalizer drops conjunctions like "and" on both sides.
+        ok, _ = ve.any_of_section_present(
+            "Cross-generation comparison | shared versus adapted",
+            "## Shared Versus Adapted\nbody")
+        self.assertTrue(ok)
+        ok2, _ = ve.any_of_section_present(
+            "Nonexistent zzz | another absent phrase", "no matching heading here")
+        self.assertFalse(ok2)
+        ok3, _ = ve.any_of_section_present(
+            "Shared and adapted", "we cover SHARED / ADAPTED elements")
+        self.assertTrue(ok3)
+
+    def test_any_of_required_absent_fails(self):
+        # A required any_of deterministic assertion whose phrases are absent from
+        # the skill output fails the build, like any other required structural
+        # check — driven entirely by assertions.yaml, not by scenario name.
+        text = assertions_yaml(extra_det=[
+            ("cross-generation-section-present", "required", "skill",
+             "Zzz Missing Heading | Another Absent Phrase")])
+        tmp = tempfile.mkdtemp(prefix="ve-anyof-")
+        self.addCleanup(lambda: __import__("shutil").rmtree(tmp, ignore_errors=True))
+        build_valid(tmp, assertions_text=text)
+        self.assertHasFailure(failures(tmp), "cross-generation-section-present")
+
+    def test_any_of_present_passes(self):
+        # "Scorecard" appears in the fixture skill output, so a required any_of
+        # assertion listing it passes and the scenario stays green.
+        text = assertions_yaml(extra_det=[
+            ("cross-generation-section-present", "required", "skill",
+             "Scorecard | Zzz Absent Phrase")])
+        tmp = tempfile.mkdtemp(prefix="ve-anyof-")
+        self.addCleanup(lambda: __import__("shutil").rmtree(tmp, ignore_errors=True))
+        build_valid(tmp, assertions_text=text)
+        self.assertEqual(failures(tmp), [])
 
     def test_quoted_colon_scalar_sequence_item_must_be_quoted(self):
         # A colon-bearing scalar sequence item MUST be quoted to parse as a string.
