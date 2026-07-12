@@ -39,8 +39,36 @@ The first scenario is `media-plan-millennials`, which exercises the
 **full-plan-review** workflow. `email-gen-x` is the second scenario and
 exercises the **marketing-asset review** workflow (a single Gen X lifecycle
 email). `social-asset-gen-z` is the third scenario and also exercises the
-**marketing-asset review** workflow (a paid Instagram carousel). Together they
-are the template for the remaining ambiguous adults-25–54 scenario.
+**marketing-asset review** workflow (a paid Instagram carousel).
+`cross-generation-adults-25-54` is the fourth scenario and exercises the
+**full-plan-review** workflow again, on an integrated acquisition campaign whose
+target is written as one broad, ambiguous band — "adults 25–54" — so it tests the
+skill's **cross-generation-comparison** method rather than a single named cohort.
+
+## Broad age bands span multiple generations
+
+A target such as "adults 25–54" is not a generation. A 30-year band spans
+multiple cohorts and, more importantly, multiple life stages, and exact
+cohort boundaries vary by definition. A reviewer must **not silently assign one
+generation** to an ambiguous range (the `cross-generation-adults-25-54` plan
+even mislabels the band "Millennials and people like them"). Age alone does not
+establish household status, income, parenthood, homeownership, financial need, or
+channel behavior, so a good review challenges those assumptions instead of
+inheriting them.
+
+The productive move is the **shared-versus-adapted** pattern: separate the
+strategy that can reasonably stay **common** across the band (for example
+transparent pricing, a credible product demonstration, clear cancellation terms,
+privacy and security reassurance, a low-friction purchase path, and a defined
+conversion event) from the strategy that should be **adapted or tested** per
+segment (message hierarchy, financial use case, life-stage problem, channel mix,
+spokesperson or creator, tone, social proof, CTA, landing-page modules, and
+nurture). The review then proposes a preplanned test matrix comparing common
+versus adapted treatments and decision rules for when one campaign is sufficient
+and when segmentation is justified — rather than replacing one age stereotype
+with several smaller ones. Where age is a weak proxy, **need state, life stage,
+behavior, and product category** are usually more useful segmentation variables
+than generation.
 
 ## Execution integrity
 

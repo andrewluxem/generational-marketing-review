@@ -1,0 +1,591 @@
+{
+  "grader": {
+    "model": "claude-opus-4-8",
+    "client": "Claude Code CLI (claude --safe-mode --tools \"\" -p)",
+    "method": "Two independent, blind grader runs, one per review. Each grader received the scenario input, the semantic assertions, and a single unlabeled review, in a fresh --safe-mode context with no tools, CLAUDE.md, skills, hooks, MCP, memories, or agents. Neither grader was told which review it graded.",
+    "blind": true,
+    "assertions_source": "assertions.yaml",
+    "assertions_version": 3,
+    "grader_prompt": "grader-prompt.md"
+  },
+  "baseline": {
+    "output_file": "baseline-output.md",
+    "graded_output_sha256": "c7d8d53e3dca0606e3642fa5bd14983b79e99457e8697f29f12ddb05f801a88e",
+    "input_sha256": "07ffc89bea880c6b6a9a932073da33a866cbf5e26bd826c80abeaa802c8e2ddd",
+    "assertions_sha256": "bcb85889a2f327d8e9abae6de0347bbb9be16e0ca3f3eab9c987ce9befc6c09b",
+    "grader_prompt_sha256": "6e833c85c7a73c2cb942fb60ad1112ac59c0da633bc4d4df9eac40b5f6e1b21d",
+    "grader_model": "claude-opus-4-8",
+    "grader_client": "Claude Code CLI (claude --safe-mode --tools \"\" -p), fresh isolated context",
+    "results": [
+      {
+        "assertion_id": "no-invented-statistics",
+        "result": "pass",
+        "reason": "Math is derived from plan figures; no invented stats or birth-years",
+        "excerpt": "$600K ÷ 25,000 = **~$24 blended CAC** (~$21 on media only)",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-deterministic-generational-behavior",
+        "result": "pass",
+        "reason": "Treats channel/generation rationales as hypotheses to test",
+        "excerpt": "rationales are assertions — treat them as hypotheses to size and test, not facts to fund",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "avoids-discriminatory-targeting",
+        "result": "pass",
+        "reason": "Recommends need-based cohorts, rejects age-band framing",
+        "excerpt": "Replace age-band homogeneity with **2–3 need-based cohorts.**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "distinguishes-evidence-types",
+        "result": "pass",
+        "reason": "Labels claims as asserted vs evidenced vs false",
+        "excerpt": "asserted, not evidenced, and even if true at the abstract level",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-strong-element",
+        "result": "pass",
+        "reason": "Recognizes clear product workflow and terms",
+        "excerpt": "There is a real product with a genuinely clear value story buried in here",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "proposes-measurable-tests",
+        "result": "pass",
+        "reason": "Proposes test matrix and incrementality tests",
+        "excerpt": "build a **pre-launch test matrix** and reserve budget for it",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "ties-verdict-to-evidence",
+        "result": "pass",
+        "reason": "Verdict tied to specific structural flaws",
+        "excerpt": "the plan measures the wrong outcome, builds a funnel that blocks the exact moment of persuasion",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "range-not-one-generation",
+        "result": "pass",
+        "reason": "Rejects one-audience premise with age contrast",
+        "excerpt": "A 26-year-old renter with no kids and a 51-year-old with a mortgage... are not the same buyer",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "range-spans-cohorts-life-stages",
+        "result": "pass",
+        "reason": "Names multiple life-stage cohorts",
+        "excerpt": "(a) early-career/first-shared-household, (b) established family with kids, (c) pre-retirement/empty-nester",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "qualifies-generational-boundaries",
+        "result": "pass",
+        "reason": "Uses life-stage cohorts, no birth-year claims, age a poor proxy",
+        "excerpt": "Age is a poor proxy; life stage and financial complexity are the real axes",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "rejects-millennials-like-label",
+        "result": "pass",
+        "reason": "Rejects homogeneous 25-54 framing that underlies the label",
+        "excerpt": "*25–54 is one audience with one motivation.*... almost certainly false",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "age-not-proof-of-status",
+        "result": "pass",
+        "reason": "Age not proof of household status/behavior",
+        "excerpt": "Age is a poor proxy; life stage and financial complexity are the real axes",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-universal-household-assumption",
+        "result": "pass",
+        "reason": "Calls homeowner-with-kids claim false",
+        "excerpt": "\"Everyone in the 25–54 range is a homeowner with kids\" — **false as a blanket statement.**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-universal-income-priority-assumption",
+        "result": "pass",
+        "reason": "Challenges peak-earning and shared-priority claims",
+        "excerpt": "conflates *can afford* with *motivated to buy*",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "flags-forced-slang-and-age-coded-tone",
+        "result": "pass",
+        "reason": "Flags slang and condescending framing as tone risk",
+        "excerpt": "an \"adulting\" frame that positions money as something you're finally graduating into can read as flip or condescending",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-streaming-generation-claim",
+        "result": "pass",
+        "reason": "Treats streaming-generation claim as assertion to test",
+        "excerpt": "The streaming (\"25–54 is the streaming generation\")... rationales are assertions",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-busy-parent-podcast-assumption",
+        "result": "pass",
+        "reason": "Treats podcast rationale as unsupported assertion",
+        "excerpt": "podcast (\"busy parents always listen during commutes\") rationales are assertions",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-social-younger-email-older-split",
+        "result": "pass",
+        "reason": "Flags email-preference split as a claim, notes budget contradiction",
+        "excerpt": "You're running this exact tone at the 40–54 segment you separately claim \"prefers email.\"",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "challenges-one-creative-concept-across-band",
+        "result": "pass",
+        "reason": "Challenges single concept/message/spokesperson across all",
+        "excerpt": "single creative, single message, single page, and single funnel, **there is nothing to optimize between**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "distinguishes-shared-from-adapted",
+        "result": "pass",
+        "reason": "Keeps product story common; adapts tone by cohort",
+        "excerpt": "Keep the playful concept for early-career if it earns its keep in testing",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "recommends-need-lifestage-behavior-segmentation",
+        "result": "pass",
+        "reason": "Recommends need-based, life-stage cohorts",
+        "excerpt": "define at least 2–3 **need-based** cohorts, not age bands",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recommends-testing-adaptations-not-assuming",
+        "result": "pass",
+        "reason": "Frames cohorts as testable, not asserted",
+        "excerpt": "Launch small, read incrementality, then pour budget into winners",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "impressions-reach-insufficient",
+        "result": "pass",
+        "reason": "Calls impressions/reach wrong scoreboard, wants subscribers",
+        "excerpt": "make **subscribers, CAC, and payback** the primary metrics",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "missing-incrementality-margin-retention",
+        "result": "pass",
+        "reason": "Names missing incrementality, CAC/margin, and renewal",
+        "excerpt": "No holdout / geo / incrementality design... No renewal, cancellation, or refund tracking",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "source-to-landing-continuity-gap",
+        "result": "pass",
+        "reason": "Flags identical nurture across all sources/segments",
+        "excerpt": "**Same 5-email nurture for all sources/segments** re-inherits #1's flaw",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "flags-forced-account-creation",
+        "result": "pass",
+        "reason": "Flags gated demo/account creation as friction",
+        "excerpt": "You are requiring commitment *before* you've earned it",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "flags-mobile-accessibility-gaps",
+        "result": "pass",
+        "reason": "Flags captions, mobile, contrast, alt text gaps",
+        "excerpt": "No captions/transcripts for a **video-heavy** plan... no mobile-layout spec",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-trusted-by-every-generation-claim",
+        "result": "pass",
+        "reason": "Calls trust line unsubstantiated on a new product",
+        "excerpt": "brand-new product with zero users, no ratings, and no substantiation... false, unsubstantiated superiority claim",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-adulting-made-easy",
+        "result": "pass",
+        "reason": "Flags adulting frame as potentially condescending/unsupported",
+        "excerpt": "an \"adulting\" frame that positions money as something you're finally graduating into can read as flip or condescending",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "identifies-weak-duplicated-channel-roles",
+        "result": "pass",
+        "reason": "Flags identical vague channel role, no defined job",
+        "excerpt": "A channel that does both, equally, for everyone is a channel with no defined job",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "weak-budget-justification",
+        "result": "pass",
+        "reason": "Flags weak 'where they spend time' justification",
+        "excerpt": "The split's only rationale (\"where our audience spends time\")... carries no expected-return logic",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "recognizes-price-comparison-strength",
+        "result": "fail",
+        "reason": "Uses $96 in math but never recognizes annual-vs-monthly comparison as a strength",
+        "excerpt": null,
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "recognizes-cancellation-renewal-strength",
+        "result": "pass",
+        "reason": "Recognizes terms as genuine trust builders to keep",
+        "excerpt": "\"cancel anytime, 7-day renewal reminder, 30-day prorated refund.\" Those you can actually stand behind",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-product-workflow-strength",
+        "result": "pass",
+        "reason": "Recognizes 5-step workflow as clear/demo-able",
+        "excerpt": "The product's best asset for that job is the concrete 5-step workflow and the interactive demo",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "flags-unnecessary-form-friction",
+        "result": "pass",
+        "reason": "Flags long form and bank/income ask as friction/privacy risk",
+        "excerpt": "asking an unconverted stranger for their **bank and income** reads as phishing-adjacent",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "preserves-common-strengths-not-over-fragment",
+        "result": "pass",
+        "reason": "Keeps demo/terms common, only 2-3 cohorts not micro-segments",
+        "excerpt": "define at least 2–3 **need-based** cohorts",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "proposes-test-matrix-common-vs-adapted",
+        "result": "pass",
+        "reason": "Concrete preplanned matrix comparing common vs adapted",
+        "excerpt": "2 message/tone concepts × your top 2 cohorts × 2 landing variants (gated vs. ungated demo; long vs. short form)",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "defines-decision-rules-common-vs-segment",
+        "result": "fail",
+        "reason": "Has test-then-fund logic but no explicit rules for when common suffices vs segmentation justified",
+        "excerpt": "Launch small, read incrementality, then pour budget into winners",
+        "confidence": "medium"
+      }
+    ],
+    "totals": {
+      "pass": 36,
+      "fail": 2,
+      "uncertain": 0,
+      "total": 38
+    }
+  },
+  "skill": {
+    "output_file": "skill-output.md",
+    "graded_output_sha256": "ec7a30487bc74bc9da18fd2f300728aca0566060142df27f82f3fb23231ac092",
+    "input_sha256": "07ffc89bea880c6b6a9a932073da33a866cbf5e26bd826c80abeaa802c8e2ddd",
+    "assertions_sha256": "bcb85889a2f327d8e9abae6de0347bbb9be16e0ca3f3eab9c987ce9befc6c09b",
+    "grader_prompt_sha256": "6e833c85c7a73c2cb942fb60ad1112ac59c0da633bc4d4df9eac40b5f6e1b21d",
+    "grader_model": "claude-opus-4-8",
+    "grader_client": "Claude Code CLI (claude --safe-mode --tools \"\" -p), fresh isolated context",
+    "results": [
+      {
+        "assertion_id": "no-invented-statistics",
+        "result": "pass",
+        "reason": "Birth-year range is derived arithmetic from supplied age band, qualified with 'roughly' and labeled inference; no invented shares/figures",
+        "excerpt": "ages 25–54 correspond to birth years of roughly 1972–2001 ... *(Inference from the supplied age range.)*",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-deterministic-generational-behavior",
+        "result": "pass",
+        "reason": "Treats generational/behavioral claims as hypotheses to test, not deterministic facts",
+        "excerpt": "Presented as fact; unsupported and exclusionary. Treat as hypotheses, not premises.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "avoids-discriminatory-targeting",
+        "result": "pass",
+        "reason": "Rejects the age-based single-audience framing rather than endorsing it",
+        "excerpt": "Reject the single-audience premise; define life-stage segments ... and validate",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "distinguishes-evidence-types",
+        "result": "pass",
+        "reason": "Consistently labels claims as provided fact, inference, assumption, observed",
+        "excerpt": "*(Assumption presented as fact.)*",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-strong-element",
+        "result": "pass",
+        "reason": "Dedicated 'What works' section praises offer, terms, workflow",
+        "excerpt": "The offer and its terms are honest and clear. The $96 vs. $144 comparison is straightforward and non-deceptive",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "proposes-measurable-tests",
+        "result": "pass",
+        "reason": "Provides a test-plan table with metrics, guardrails, and decision rules",
+        "excerpt": "Matched geo holdout (media on vs. off) | Incremental net-new paid subscribers; incremental CAC",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "ties-verdict-to-evidence",
+        "result": "pass",
+        "reason": "Verdict grounded in specific measurement, evidence, and risk failures",
+        "excerpt": "the plan currently measures the wrong outcome, is built on unverified stereotypes ... hides the proof prospects need behind an invasive data gate",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "range-not-one-generation",
+        "result": "pass",
+        "reason": "Explicitly states 25–54 is not one generation",
+        "excerpt": "It is not one generation.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "range-spans-cohorts-life-stages",
+        "result": "pass",
+        "reason": "Notes span across Gen X, Millennials, and life stages",
+        "excerpt": "spans most of Gen X (older half) and Millennials, and touches the Gen Z boundary at 25",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "qualifies-generational-boundaries",
+        "result": "pass",
+        "reason": "Uses 'roughly' and 'touches the boundary,' avoiding exact boundary assertion",
+        "excerpt": "birth years of roughly 1972–2001, which spans most of Gen X ... and touches the Gen Z boundary",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "rejects-millennials-like-label",
+        "result": "pass",
+        "reason": "Calls the label factually loose and a mislabel of a 29-year span",
+        "excerpt": "\"Millennials and people like them\" mislabels a 29-year span.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "age-not-proof-of-status",
+        "result": "pass",
+        "reason": "Notes universal status claims false for many in range",
+        "excerpt": "will misfire for the large shares who are single, child-free, renting, early-career, or older Gen X",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-universal-household-assumption",
+        "result": "pass",
+        "reason": "Challenges the all-homeowners-with-kids assumption as false",
+        "excerpt": "Everyone 25–54 is a homeowner with kids at peak earning age ... unsupported and exclusionary",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-universal-income-priority-assumption",
+        "result": "pass",
+        "reason": "Challenges peak-earning and identical-priorities assumptions",
+        "excerpt": "All are peak-earning and can afford an annual plan | Assumption (stated as fact) ... Remove / Test",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "flags-forced-slang-and-age-coded-tone",
+        "result": "pass",
+        "reason": "Flags slang and 'feel like a kid' line as self-contradictory/condescending",
+        "excerpt": "\"doesn't make you feel like a kid\" while using teen-coded slang is self-contradictory",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-streaming-generation-claim",
+        "result": "pass",
+        "reason": "Treats 'streaming generation' as unsupported assumption to test",
+        "excerpt": "\"25–54 is the streaming generation\" ... Platform/behavior claims asserted without any source",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-busy-parent-podcast-assumption",
+        "result": "pass",
+        "reason": "Flags podcast commute claim as unevidenced stereotype",
+        "excerpt": "Busy parents always listen to podcasts during commutes | Assumption / stereotype",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-social-younger-email-older-split",
+        "result": "pass",
+        "reason": "Flags younger-social/older-email split as unevidenced assumption",
+        "excerpt": "Younger half lives on social; older half prefers email | Assumption ... Test",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-one-creative-concept-across-band",
+        "result": "pass",
+        "reason": "Challenges single concept/host/CTA/visual across channels with no adaptation",
+        "excerpt": "One concept, one host, one CTA, one visual treatment ... no adaptation across six very different channels",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "distinguishes-shared-from-adapted",
+        "result": "pass",
+        "reason": "Keeps offer/terms/product common while recommending creative/message/channel adaptation",
+        "excerpt": "removing the unsubstantiated ... claim ... are compliance/ethics fixes, not A/B options — implement them rather than test whether to",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "recommends-need-lifestage-behavior-segmentation",
+        "result": "pass",
+        "reason": "Recommends life-stage/need segmentation over age band alone",
+        "excerpt": "define life-stage segments (partnered/single, parent/not, younger/older) and validate",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recommends-testing-adaptations-not-assuming",
+        "result": "pass",
+        "reason": "Recommends validating segments with thresholds rather than assuming",
+        "excerpt": "Adopt segmentation if uplift ≥ predefined threshold and CAC within target",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "impressions-reach-insufficient",
+        "result": "pass",
+        "reason": "Calls impressions/reach wrong metric and demands subscriber outcomes",
+        "excerpt": "Measures the wrong thing for a subscriber objective ... Make paid subscribers, trial-to-paid, CAC, and incremental lift primary",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "missing-incrementality-margin-retention",
+        "result": "pass",
+        "reason": "Notes missing holdout/incrementality, CAC/payback, and retention",
+        "excerpt": "no holdout, incrementality, CAC, payback, or retention measurement",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "source-to-landing-continuity-gap",
+        "result": "pass",
+        "reason": "Flags identical nurture and universal landing lacking source/segment variation",
+        "excerpt": "Personalize the nurture by source and segment instead of one identical five-email sequence",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "flags-forced-account-creation",
+        "result": "pass",
+        "reason": "Flags mandatory account creation before demo as friction; recommends ungating",
+        "excerpt": "gates the exact proof prospects say they need (the demo and workflow) behind mandatory account creation",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "flags-mobile-accessibility-gaps",
+        "result": "pass",
+        "reason": "Identifies missing captions, alt text, contrast, mobile layout, screen-reader",
+        "excerpt": "No captions/transcripts, alt text, contrast targets, mobile layout, or screen-reader support",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-trusted-by-every-generation-claim",
+        "result": "pass",
+        "reason": "Flags trust line as unsubstantiated deception risk",
+        "excerpt": "\"The financial app trusted by every generation\" has no rating, review, or substantiation",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-adulting-made-easy",
+        "result": "pass",
+        "reason": "Challenges slang/adulting framing as condescension risk; leads with benefit",
+        "excerpt": "condescension risk ... Replace with benefit-led copy; test tone by segment; drop forced slang",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "identifies-weak-duplicated-channel-roles",
+        "result": "pass",
+        "reason": "Notes every channel has same vague role with no customer-state mapping",
+        "excerpt": "Every channel role = \"drive awareness and conversion\" ... No channel mapped to a customer state",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "weak-budget-justification",
+        "result": "pass",
+        "reason": "Flags budget justification as weak and calls for CAC/return logic",
+        "excerpt": "Justify the budget split by expected CAC and return, not \"where our audience spends its time.\"",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "recognizes-price-comparison-strength",
+        "result": "pass",
+        "reason": "Praises the $96 vs $144 comparison as clear and non-deceptive",
+        "excerpt": "The $96 vs. $144 comparison is straightforward and non-deceptive",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-cancellation-renewal-strength",
+        "result": "pass",
+        "reason": "Praises cancel/reminder/refund terms as trust-building",
+        "excerpt": "cancel-anytime, a 7-day renewal reminder, and prorated 30-day refunds are trust-building",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-product-workflow-strength",
+        "result": "pass",
+        "reason": "Praises five-step workflow as a strong demonstrable proposition",
+        "excerpt": "The five-step workflow ... is a strong, demonstrable proposition",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "flags-unnecessary-form-friction",
+        "result": "pass",
+        "reason": "Flags eight-field form as friction and privacy concern at first touch",
+        "excerpt": "An eight-field form demanding income, ZIP, children count, homeownership, and current bank ... will suppress completion and erode trust",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "preserves-common-strengths-not-over-fragment",
+        "result": "pass",
+        "reason": "Preserves offer/terms/product and asks only for a few segments",
+        "excerpt": "Replace \"one audience\" with at least a few life-stage segments",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "proposes-test-matrix-common-vs-adapted",
+        "result": "pass",
+        "reason": "Preplanned test matrix compares segmented/adapted vs universal treatments",
+        "excerpt": "2–3 life-stage-tailored creative + landing variants vs. universal",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "defines-decision-rules-common-vs-segment",
+        "result": "pass",
+        "reason": "Decision-rule column specifies when to adopt common vs adapted",
+        "excerpt": "Ship short form unless it materially lowers paid conversion; sensitive fields stay out regardless",
+        "confidence": "high"
+      }
+    ],
+    "totals": {
+      "pass": 38,
+      "fail": 0,
+      "uncertain": 0,
+      "total": 38
+    }
+  },
+  "totals": {
+    "baseline": {
+      "pass": 36,
+      "fail": 2,
+      "uncertain": 0,
+      "total": 38
+    },
+    "skill": {
+      "pass": 38,
+      "fail": 0,
+      "uncertain": 0,
+      "total": 38
+    }
+  }
+}

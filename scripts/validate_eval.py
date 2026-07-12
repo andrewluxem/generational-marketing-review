@@ -14,6 +14,10 @@ This script performs ONLY deterministic checks and cryptographic binding:
 - required structural assertions hold for the skill output, using canonical
   rubric-dimension identifiers from assertions.yaml (matchers are not tuned to
   any specific output);
+- a deterministic assertion may instead carry a data-driven `any_of` field (a
+  pipe-delimited list of acceptable section phrases); it passes when any phrase
+  appears in the skill output. This is scenario-agnostic: the phrases live in
+  assertions.yaml, never in this validator;
 - each grader result set covers the semantic assertions exactly once with no
   duplicate, missing, or extra ids;
 - totals are recomputed from raw results rather than trusted;
@@ -283,6 +287,31 @@ def normalize_text(text):
 def dimension_present(canonical_name, normalized_output):
     needle = normalize_text(canonical_name)
     return needle in normalized_output
+
+
+def any_of_section_present(any_of_field, skill_text):
+    """Data-driven section check: pass if any acceptable phrase appears.
+
+    `any_of_field` is a pipe-delimited list of acceptable section phrases declared
+    in assertions.yaml (for example
+    "Cross-generation comparison | shared versus adapted"). Each phrase and the
+    output are normalized identically (lowercase, punctuation and conjunctions
+    dropped) before an ordinary substring test, so the check is scenario-agnostic
+    and driven entirely by the assertion, not by any wording hardcoded here. Any
+    deterministic assertion in any scenario may use it; nothing is specific to a
+    single scenario. Returns (ok, detail), never None, so gating follows the
+    assertion's severity like every other structural check.
+    """
+    phrases = [p.strip() for p in str(any_of_field).split("|") if p.strip()]
+    normalized_output = normalize_text(skill_text)
+    for phrase in phrases:
+        needle = normalize_text(phrase)
+        # Pad both sides so the substring test respects token boundaries;
+        # normalize_text guarantees single-space separation, so " needle "
+        # only matches whole phrases (not "shared" inside "unshared").
+        if needle and f" {needle} " in f" {normalized_output} ":
+            return True, f"matched section phrase: {phrase!r}"
+    return False, "no acceptable section phrase present (any_of: " + " | ".join(phrases) + ")"
 
 
 # --------------------------------------------------------------------------- #
@@ -652,7 +681,10 @@ def validate_scenario(scenario_dir):
             continue
         if a.get("applies_to") not in ("skill", "both"):
             continue
-        ok, detail = structural_check(aid, skill_text, dimensions)
+        if a.get("any_of"):
+            ok, detail = any_of_section_present(a.get("any_of"), skill_text)
+        else:
+            ok, detail = structural_check(aid, skill_text, dimensions)
         if ok is None:
             report.warn(f"[det/{severity}] {aid}: {detail}")
         elif ok:
