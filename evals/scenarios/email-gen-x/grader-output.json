@@ -1,0 +1,310 @@
+{
+  "grader": {
+    "model": "claude-opus-4-8",
+    "client": "Claude Code CLI (claude --safe-mode --tools \"\" -p)",
+    "method": "Two independent, blind grader runs, one per review. Each grader received the scenario input, the semantic assertions, and a single unlabeled review, in a fresh --safe-mode context with no tools, CLAUDE.md, skills, hooks, MCP, memories, or agents. Neither grader was told which review it graded.",
+    "blind": true,
+    "assertions_source": "assertions.yaml",
+    "grader_prompt": "grader-prompt.md"
+  },
+  "baseline": {
+    "output_file": "baseline-output.md",
+    "graded_output_sha256": "69f2b7bf3f221f8cf1f00d404f1d7439ab0a46c2e79547fb69c7a3b0908119ff",
+    "input_sha256": "ef7d1b4a4f7ccd0ad7c2ecaae7d9305727bc70153e128cdd17a76c88c28b1afa",
+    "assertions_sha256": "d29cd5765527e37858c947309d789080e34dc97cc2daad0d9b75ff5991c0fe0b",
+    "grader_prompt_sha256": "95863ca3c424878a386cd5849736a4403d6eb944a998d767abb57b38f3245430",
+    "grader_model": "claude-opus-4-8",
+    "grader_client": "Claude Code CLI (claude --safe-mode --tools \"\" -p), fresh isolated context",
+    "results": [
+      {
+        "assertion_id": "no-invented-statistics",
+        "result": "pass",
+        "reason": "All figures ($192, $540, $348, $296, $135) come from the plan; design specs like 16px/44px are recommendations, not asserted facts.",
+        "excerpt": "moving to Annual is $296 the first year and $348 after",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-deterministic-generational-behavior",
+        "result": "pass",
+        "reason": "Treats generational claims as untested assumptions to A/B test; one mild 'known to reject' generalization does not dominate.",
+        "excerpt": "granting the \"Gen X prefers email\" assumption (which has *no* data behind it)",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "avoids-discriminatory-targeting",
+        "result": "pass",
+        "reason": "Credits behavior-based targeting and explicitly criticizes the age-coded framing rather than endorsing it.",
+        "excerpt": "it *tells the reader who they are*... which is the opposite of respecting their intelligence",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "distinguishes-evidence-types",
+        "result": "pass",
+        "reason": "Separates demonstrated spend from assumed habit and labels channel claim as assumption with no data.",
+        "excerpt": "The $192 \"savings\" assumes a four-visits-a-year habit they've never shown",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-strong-element",
+        "result": "pass",
+        "reason": "Dedicated 'What's genuinely right' section crediting targeting and price section.",
+        "excerpt": "The **\"What it costs, plainly\" section.** This is the most on-brand, most persuasive part of the email.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "proposes-measurable-tests",
+        "result": "pass",
+        "reason": "Proposes subject-line A/B/C, body test, framing test, and holdout.",
+        "excerpt": "**Subject line A/B/C** \u2014 directly test the untested \"lead with nostalgia\" assumption",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "ties-verdict-to-evidence",
+        "result": "pass",
+        "reason": "Bottom line grounds verdict in specific execution flaws and measurement gaps.",
+        "excerpt": "rests its central savings claim on a behavior this exact audience has *not* demonstrated",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "subject-line-vague-nostalgia",
+        "result": "pass",
+        "reason": "Calls nostalgia lead an untested assumption and proposes value-based alternatives.",
+        "excerpt": "directly test the untested \"lead with nostalgia\" assumption",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "flags-age-coded-language",
+        "result": "pass",
+        "reason": "Flags 'how your generation was raised' framing as disrespectful marketed-at tone.",
+        "excerpt": "It also *tells the reader who they are* (\"that is just how your generation was raised\"",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "delayed-value-proposition",
+        "result": "pass",
+        "reason": "Identifies 150-word nostalgia opening delaying value and cost buried below fold.",
+        "excerpt": "The first paragraph spends 150 words... then tries to sell a convenience subscription",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-price-comparison-strength",
+        "result": "pass",
+        "reason": "Credits the plain cost comparison as most persuasive and notes subscription beats \u00e0 la carte for full checklist.",
+        "excerpt": "*if* they want the full checklist, subscription beats \u00e0 la carte handily",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-email-channel-assumption",
+        "result": "pass",
+        "reason": "Challenges single-email sufficiency and notes no data behind email-preference claim.",
+        "excerpt": "one send is a thin lifecycle push. I'd challenge this constraint",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-longevity-trust-claim",
+        "result": "pass",
+        "reason": "Calls the decades claim vague puffery and recommends dropping if unsubstantiated.",
+        "excerpt": "\"Trusted by families for decades\" is vague puffery \u2014 and if you can't substantiate \"decades\", it's a claim to drop",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "cta-visibility-without-pressure",
+        "result": "pass",
+        "reason": "Notes CTA at bottom and recommends repetition high and low without manipulative urgency.",
+        "excerpt": "tap-target button (44px+) repeated once high after the value prop and once at the bottom",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "mobile-and-small-print-risk",
+        "result": "pass",
+        "reason": "Flags no mobile guidance, below-fold price, and illegible small print for aging eyes.",
+        "excerpt": "a small-print block that's actually legible on a phone",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "missing-incrementality-renewal-unsub",
+        "result": "pass",
+        "reason": "Covers missing holdout, renewal metric, and list-health guardrails.",
+        "excerpt": "**No holdout.**... **No renewal/retention metric.**... **No list-health guardrails.**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "preserves-cancellation-reminder-detail",
+        "result": "pass",
+        "reason": "Credits reminder and cancel/refund as objection-killers and urges surfacing them.",
+        "excerpt": "the 7-day reminder, cancel-in-two-clicks, prorated refunds... These are real objection-killers",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "specific-revisions-not-generic",
+        "result": "pass",
+        "reason": "Gives concrete restructure steps, alternative subject lines, and mobile specs.",
+        "excerpt": "one-line warm open \u2192 value... \u2192 prominent price comparison **with the ~$296 first-year price stated**",
+        "confidence": "high"
+      }
+    ],
+    "totals": {
+      "pass": 18,
+      "fail": 0,
+      "uncertain": 0,
+      "total": 18
+    }
+  },
+  "skill": {
+    "output_file": "skill-output.md",
+    "graded_output_sha256": "b8b9a6a5c8da18ea47b48d16fc087cd6b03441d229eb80f07681aba70ec941a4",
+    "input_sha256": "ef7d1b4a4f7ccd0ad7c2ecaae7d9305727bc70153e128cdd17a76c88c28b1afa",
+    "assertions_sha256": "d29cd5765527e37858c947309d789080e34dc97cc2daad0d9b75ff5991c0fe0b",
+    "grader_prompt_sha256": "95863ca3c424878a386cd5849736a4403d6eb944a998d767abb57b38f3245430",
+    "grader_model": "claude-opus-4-8",
+    "grader_client": "Claude Code CLI (claude --safe-mode --tools \"\" -p), fresh isolated context",
+    "results": [
+      {
+        "assertion_id": "no-invented-statistics",
+        "result": "pass",
+        "reason": "All figures ($348, $540, $192, 15%, 1965-1980) come from the plan; no invented rates.",
+        "excerpt": "Pricing figures are internally consistent as provided.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-deterministic-generational-behavior",
+        "result": "pass",
+        "reason": "Treats generational claims as assumptions/hypotheses to test, not proof.",
+        "excerpt": "Treat all three as hypotheses to test.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "avoids-discriminatory-targeting",
+        "result": "pass",
+        "reason": "Criticizes rather than endorses the age-coded framing.",
+        "excerpt": "drop generational essentialism",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "distinguishes-evidence-types",
+        "result": "pass",
+        "reason": "Explicit Evidence register separates provided fact, observed feature, inference, assumption.",
+        "excerpt": "Assumption (unverified, no source)",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-strong-element",
+        "result": "pass",
+        "reason": "Credits honest price math and low-risk terms.",
+        "excerpt": "Honest, specific value math.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "proposes-measurable-tests",
+        "result": "pass",
+        "reason": "Includes a full test plan with hypotheses, metrics, and decision rules.",
+        "excerpt": "Treatment (send) vs. randomized no-send holdout",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "ties-verdict-to-evidence",
+        "result": "pass",
+        "reason": "Verdict grounded in specific framing, hierarchy, proof, and measurement risks.",
+        "excerpt": "rewrite the framing to remove generational stereotyping and the self-contradiction",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "subject-line-vague-nostalgia",
+        "result": "pass",
+        "reason": "Flags nostalgia subject as clich\u00e9d/off-objective and proposes value-led replacement.",
+        "excerpt": "risks reading as condescending and clich\u00e9d",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "flags-age-coded-language",
+        "result": "pass",
+        "reason": "Explicitly flags generational essentialism as condescension/tone risk.",
+        "excerpt": "that is just how your generation was raised",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "delayed-value-proposition",
+        "result": "pass",
+        "reason": "Notes the opening delays practical content and buries value.",
+        "excerpt": "it delays the practical content",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-price-comparison-strength",
+        "result": "pass",
+        "reason": "Credits concrete annual-vs-a-la-carte math as credible and audience-matched.",
+        "excerpt": "$348 vs. ~$540, ~$192 saved",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-email-channel-assumption",
+        "result": "pass",
+        "reason": "Labels the email-preference claim an unsourced assumption to test.",
+        "excerpt": "unsourced platform-ranking-style claim with no first-party open/click data",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-longevity-trust-claim",
+        "result": "pass",
+        "reason": "Flags 'trusted by families for decades' as unsubstantiated.",
+        "excerpt": "unsubstantiated trust claim; confirm it is true and provable or remove it",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "cta-visibility-without-pressure",
+        "result": "fail",
+        "reason": "Treats single CTA as a strength; never flags bottom-only placement or recommends visibility/repetition.",
+        "excerpt": "Clear single next step. One unambiguous CTA",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "mobile-and-small-print-risk",
+        "result": "pass",
+        "reason": "Flags mobile rendering, below-fold price, and dense small-print legibility.",
+        "excerpt": "Dense small-print block and unspecified font/contrast/alt text raise accessibility risk",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "missing-incrementality-renewal-unsub",
+        "result": "pass",
+        "reason": "Names missing holdout, retention, and list-health tracking.",
+        "excerpt": "No holdout/control, no incrementality, no renewal/retention despite multi-year payback, and no list-health tracking",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "preserves-cancellation-reminder-detail",
+        "result": "pass",
+        "reason": "Credits two-click cancel, prorated refunds, and seven-day reminders as trust builders.",
+        "excerpt": "Cancel in two clicks, prorated refunds, seven-day reminders",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "specific-revisions-not-generic",
+        "result": "pass",
+        "reason": "Gives concrete subject alternative, moving price above fold, button/font specs.",
+        "excerpt": "subject built around \"your next four home visits for less than booking them one at a time\"",
+        "confidence": "high"
+      }
+    ],
+    "totals": {
+      "pass": 17,
+      "fail": 1,
+      "uncertain": 0,
+      "total": 18
+    }
+  },
+  "totals": {
+    "baseline": {
+      "pass": 18,
+      "fail": 0,
+      "uncertain": 0,
+      "total": 18
+    },
+    "skill": {
+      "pass": 17,
+      "fail": 1,
+      "uncertain": 0,
+      "total": 18
+    }
+  }
+}

@@ -35,8 +35,11 @@ evals/scenarios/<scenario-name>/
 └── run-metadata.json   # client/model, exact prompts, isolation/loading method, timing
 ```
 
-The first scenario is `media-plan-millennials`. It is the template for the
-remaining Gen X, Gen Z, and ambiguous adults-25–54 scenarios.
+The first scenario is `media-plan-millennials`, which exercises the
+**full-plan-review** workflow. `email-gen-x` is the second scenario and
+exercises the **marketing-asset review** workflow (a single Gen X lifecycle
+email). Together they are the template for the remaining Gen Z and ambiguous
+adults-25–54 scenarios.
 
 ## Execution integrity
 
@@ -58,13 +61,27 @@ show what a capable general model produces *without* the skill.
 ### Skill-run isolation
 
 The skill run uses a **separate fresh context**. It receives the same
-`input.md`, is pointed at the repository, and is told to read `SKILL.md` and
-follow its routing for a full marketing-plan review — that is, only the
-references `SKILL.md` directs for that workflow (`references/plan-review.md`,
-`references/review-rubric.md`, `references/generation-lenses.md`,
-`references/evidence-and-safety.md`) plus the named asset templates. It is
-explicitly forbidden from reading `evals/`, `dist/`, or the repository `README`,
-so it cannot see the assertions, the expected behavior, or contact information.
+`input.md` and is told to read `SKILL.md` and follow its routing **for the
+workflow that scenario tests** — only the references and templates `SKILL.md`
+directs for that specific workflow, and nothing else. The routing is
+workflow-dependent, so a scenario must provide the files its workflow actually
+directs rather than reusing another scenario's file set:
+
+- **Full-plan-review** scenarios (e.g. `media-plan-millennials`) provide
+  `references/plan-review.md`, `references/review-rubric.md`,
+  `references/generation-lenses.md`, `references/evidence-and-safety.md`,
+  `assets/review-report-template.md`, and `assets/evidence-register-template.md`.
+- **Marketing-asset review** scenarios (e.g. `email-gen-x`) provide
+  `references/asset-review.md` in place of `references/plan-review.md`, keep
+  `references/review-rubric.md`, `references/generation-lenses.md`,
+  `references/evidence-and-safety.md`, and `assets/review-report-template.md`,
+  and do **not** provide `references/plan-review.md` or the separate
+  `assets/evidence-register-template.md` (the report template already carries an
+  evidence-register section).
+
+The run is explicitly forbidden from reading `evals/`, `dist/`, or the
+repository `README`, so it cannot see the assertions, the expected behavior, or
+contact information.
 
 `run-metadata.json` records the client, model, exact prompt, execution timing,
 and the isolation or loading method for every run so the comparison is
