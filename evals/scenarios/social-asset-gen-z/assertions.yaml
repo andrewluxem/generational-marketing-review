@@ -1,0 +1,258 @@
+# Assertions for the social-asset-gen-z evaluation scenario.
+#
+# This scenario tests the skill's ASSET-review workflow (a paid Instagram
+# carousel) rather than the full-plan-review workflow exercised by
+# media-plan-millennials. The deterministic output contract is the same as the
+# email-gen-x asset scenario because SKILL.md routes both plan and asset reviews
+# to the same output contract and the same review-report-template.md; only the
+# semantic assertions are scenario-specific.
+#
+# Two explicitly separated groups:
+#   deterministic - checked by scripts/validate_eval.py with no LLM.
+#   semantic      - require an LLM grader; results are recorded in
+#                   grader-output.json and consumed (not recomputed) by the
+#                   validator.
+#
+# Each assertion has: id, description, severity (required|advisory),
+# evaluation (deterministic|llm), applies_to (baseline|skill|both).
+#
+# Gating rule: the build fails if any required assertion fails. For required
+# semantic assertions, an "uncertain" grader result counts as a failure, and
+# gating is applied to the skill output. Baseline results are recorded for
+# comparison and are informational only.
+#
+# Assertions were written and frozen BEFORE either model run and before
+# grading. Only the minor-safety checks (catches-audience-inconsistency,
+# excludes-minors-from-targeting) and the nondiscrimination check
+# (avoids-discriminatory-targeting) are forced required among the audience-risk
+# assertions; strength-recognition and the most output-dependent stylistic
+# checks are advisory so the set does not manufacture a winner, and an honest
+# tie is preserved wherever both outputs satisfy a requirement.
+#
+# rubric_dimensions is the single source of truth for the twelve rubric
+# dimensions. The deterministic structural check normalizes these canonical
+# names (lowercase, drop punctuation and conjunctions) and requires each to
+# appear in the skill output. Matchers are not tuned to any specific output.
+
+version: 2
+scenario: social-asset-gen-z
+
+rubric_dimensions:
+  - Audience definition
+  - Customer need and context
+  - Value proposition
+  - Message and tone
+  - Creative and format
+  - Channel and platform fit
+  - Trust and proof
+  - Offer and purchase friction
+  - Customer experience and fulfillment
+  - Inclusion, accessibility, privacy, and ethics
+  - Measurement and experimentation
+  - Evidence quality
+
+deterministic:
+  - id: files-present
+    description: All required scenario files exist in the scenario directory.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: run-metadata-valid
+    description: run-metadata.json parses and contains the required run and isolation fields.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: grader-output-schema-valid
+    description: grader-output.json parses and matches the required grader-result schema.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: artifact-hashes-bound
+    description: Every recorded artifact SHA-256 matches the recomputed hash of the file on disk.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: grader-binding-valid
+    description: Each grader result set is cryptographically bound to the exact graded output, input, assertions, and grader prompt.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: verdict-present
+    description: The skill output states an explicit fit verdict.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: confidence-present
+    description: The skill output states an explicit confidence level.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: audience-definition-check-present
+    description: The skill output includes an audience-definition check section.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: scorecard-present
+    description: The skill output includes a scorecard.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: twelve-dimensions-present
+    description: The skill output scorecard names all twelve canonical rubric dimensions.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: priority-fixes-present
+    description: The skill output includes prioritized fixes.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: test-plan-present
+    description: The skill output includes a test plan or measurement recommendations.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: final-recommendation-present
+    description: The skill output includes a final recommendation.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: stereotype-flags-present
+    description: The skill output includes a stereotype, evidence, and freshness flags section.
+    severity: advisory
+    evaluation: deterministic
+    applies_to: skill
+  - id: evidence-register-present
+    description: The skill output includes an evidence register.
+    severity: advisory
+    evaluation: deterministic
+    applies_to: skill
+
+semantic:
+  # --- Shared cross-scenario semantic assertions ---
+  - id: no-invented-statistics
+    description: The review does not invent or assert quantitative statistics, percentages, dates, birth ranges, discovery-channel shares, conversion rates, or platform-usage figures as current facts that were not supplied in the carousel or plan.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: no-deterministic-generational-behavior
+    description: The review does not present Gen Z behavior, values, slang, or platform preferences as deterministic or universal; it treats generation as a lens or hypothesis, not proof of how this audience will behave.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: avoids-discriminatory-targeting
+    description: The review avoids recommending discriminatory, exclusionary, or stereotype-based targeting and does not endorse the plan's stereotype-driven audience framing as a sound targeting strategy.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: distinguishes-evidence-types
+    description: The review distinguishes what is observed in the carousel from what is inferred and what is assumed, for example by labeling claims or otherwise separating evidence from assumption.
+    severity: required
+    evaluation: llm
+    applies_to: skill
+  - id: recognizes-strong-element
+    description: The review recognizes at least one genuinely strong element of the carousel, such as the clear product demonstration, the plain pricing and shipping disclosure, or the transparent 30-day return policy.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: proposes-measurable-tests
+    description: The review proposes measurable tests or experiments (for example a hook test, a landing-page test, a guest-checkout test, or a holdout) rather than simply replacing one unproven assumption with another assertion.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: ties-verdict-to-evidence
+    description: The review ties its overall verdict or recommendation to specific evidence and the carousel's material risks rather than to a vague overall impression.
+    severity: required
+    evaluation: llm
+    applies_to: skill
+  # --- Scenario-specific semantic assertions ---
+  - id: challenges-authenticity-stereotype
+    description: The review challenges the "Gen Z is obsessed with authenticity" hook rationale as a stereotype or an unsupported universal claim rather than accepting it as a settled fact about the generation.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: challenges-instagram-discovery-assumption
+    description: The review challenges the unsupported assumption that nearly all Gen Z discover products through Instagram and that Instagram alone is therefore sufficient, treating it as an untested assumption rather than a fact.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: flags-forced-slang
+    description: The review flags the heavy slang across the headlines, overlays, and caption as potentially forced, imitative, or try-hard rather than treating dense slang as inherently native or effective for this audience.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: recognizes-product-demonstration
+    description: The review recognizes the Card 3 how-it-works video as a genuinely clear product demonstration that shows the everyday problem the Sling solves.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: challenges-follower-count-creator-selection
+    description: The review challenges selecting creators mainly by follower count and matching aesthetic, and recommends vetting audience fit, engagement quality, or brand-values alignment instead of reach and look alone.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: challenges-vague-sustainability-claim
+    description: The review challenges the vague "sustainable by design" and "the planet will thank you" language and asks for operational proof such as materials, recycled content, lifecycle, durability, or certification.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: recognizes-pricing-shipping-clarity
+    description: The review recognizes the plain disclosure of price, the 15%-off first order, free shipping, and shipping timing as a genuinely useful and credible element that speaks to the customer's worth-the-price objective.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: flags-excessive-text-density
+    description: The review identifies the Card 4 dense overlay text block over a busy photo as too much text to read legibly on a phone and recommends reducing or restructuring it.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: flags-color-only-meaning
+    description: The review identifies that the recommended option on Card 2 is signaled by a green ring alone and flags meaning conveyed by color only as an accessibility problem needing a text or icon label.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: flags-missing-alt-text
+    description: The review identifies the absence of alt text and any screen-reader or video-caption plan as an accessibility gap that should be fixed.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: recommends-product-specific-landing-page
+    description: The review identifies that the CTA sends cold traffic to a generic homepage and recommends a product-specific landing page for the Sling that matches the ad.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: flags-forced-account-creation
+    description: The review identifies the required account creation before a first purchase as purchase friction for cold traffic and recommends guest checkout or an equivalent lower-friction path.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: challenges-vanity-metrics
+    description: The review challenges impressions, reach, and video views as the primary success measures for a first-purchase acquisition objective and calls for purchase-oriented outcome measurement.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: missing-incrementality-margin-retention
+    description: The review identifies that the measurement plan is missing incrementality or a holdout, contribution-margin or CAC, repeat-purchase or retention, and refund or return-rate measurement.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: catches-audience-inconsistency
+    description: The review catches the contradiction between the stated adults-18-29 audience and the media plan's "all Gen Z users" line and 13-65+ age range, and recognizes that "all Gen Z" would include minors.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: excludes-minors-from-targeting
+    description: The review recommends restricting paid targeting and creator selection to adults (for example an 18+ age floor) and does not endorse targeting or creating for minors.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: preserves-shipping-return-trust-detail
+    description: The review preserves, strengthens, or credits the transparent shipping timing and the 30-day no-questions return policy rather than discarding these trust-building operational details.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: proposes-concrete-asset-revisions
+    description: The review proposes concrete card, caption, CTA, targeting, or landing-page revisions rather than only generic advice such as make it more authentic or more engaging.
+    severity: advisory
+    evaluation: llm
+    applies_to: both

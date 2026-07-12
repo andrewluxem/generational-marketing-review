@@ -38,8 +38,9 @@ evals/scenarios/<scenario-name>/
 The first scenario is `media-plan-millennials`, which exercises the
 **full-plan-review** workflow. `email-gen-x` is the second scenario and
 exercises the **marketing-asset review** workflow (a single Gen X lifecycle
-email). Together they are the template for the remaining Gen Z and ambiguous
-adults-25–54 scenarios.
+email). `social-asset-gen-z` is the third scenario and also exercises the
+**marketing-asset review** workflow (a paid Instagram carousel). Together they
+are the template for the remaining ambiguous adults-25–54 scenario.
 
 ## Execution integrity
 
@@ -155,6 +156,15 @@ not fail the build. The build fails if any required assertion fails.
    geography, category, customer state, objective, channels, and constraints
    explicit so the model does not have to ask which generation is intended. Use
    no private, confidential, or real campaign material and no copied statistics.
+   When a generation label spans both minors and adults (for example, "Gen Z"
+   commonly includes teenagers), state the intended **adult-only** age band
+   explicitly, and if the scenario tests minor safety, plant a concrete
+   contradiction (such as an "all Gen Z" targeting line or a 13+ age range) so a
+   good review must catch it and recommend an adult age floor rather than
+   silently target minors. Make the minor-safety and nondiscrimination
+   assertions `required`, and keep strength-recognition and the most
+   output-dependent stylistic checks `advisory` so the set does not manufacture a
+   winner. `social-asset-gen-z` is the worked example.
 3. Produce `baseline-output.md` from an isolated context that cannot see the
    skill, and `skill-output.md` from a separate context that loads `SKILL.md`
    and the references it directs. Capture both verbatim. Record client, model,
