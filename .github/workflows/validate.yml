@@ -17,8 +17,12 @@ jobs:
           python-version: "3.12"
       - run: python scripts/validate_structure.py
       - run: python scripts/scan_public_claims.py
+      - run: python -m unittest discover -s tests
+      - run: python scripts/validate_eval.py
       - run: python scripts/build_skill.py
       - run: unzip -l dist/generational-marketing-review.skill
       - run: test "$(unzip -Z1 dist/generational-marketing-review.skill | cut -d/ -f1 | sort -u | wc -l)" -eq 1
       - run: "! unzip -l dist/generational-marketing-review.skill | grep -i README"
+      - run: "! unzip -Z1 dist/generational-marketing-review.skill | grep -Ei 'evals/|tests/|scenarios|run-metadata|grader-output|baseline-output|skill-output'"
       - run: "! unzip -p dist/generational-marketing-review.skill | grep -Ei '@[A-Za-z0-9_.]{2,}|[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}'"
+      - run: "! unzip -p dist/generational-marketing-review.skill | grep -F '/Users/'"

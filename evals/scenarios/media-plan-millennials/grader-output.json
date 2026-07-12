@@ -1,0 +1,268 @@
+{
+  "grader": {
+    "model": "claude-opus-4-8",
+    "client": "Claude Code CLI (claude --safe-mode --tools \"\" -p)",
+    "method": "Two independent, blind grader runs, one per review. Each grader received the scenario input, the semantic assertions, and a single unlabeled review, in a fresh --safe-mode context with no tools, CLAUDE.md, skills, hooks, MCP, memories, or agents. Neither grader was told which review it graded.",
+    "blind": true,
+    "assertions_source": "assertions.yaml",
+    "grader_prompt": "grader-prompt.md"
+  },
+  "baseline": {
+    "output_file": "baseline-output.md",
+    "graded_output_sha256": "f1b41d593ff1b4cda7223abe6766cda3fdab2a03392b44442de61e3f6403e625",
+    "input_sha256": "38ce44c69c2b13d90f6f48acc58c7919033b807c201bf0fc01b81adda96fd073",
+    "assertions_sha256": "d46fa556a81f680df7501f156dafc77364035f68ac1150f81f48722abb632cc2",
+    "grader_prompt_sha256": "6e833c85c7a73c2cb942fb60ad1112ac59c0da633bc4d4df9eac40b5f6e1b21d",
+    "grader_model": "claude-opus-4-8",
+    "grader_client": "Claude Code CLI (claude --safe-mode --tools \"\" -p), fresh isolated context",
+    "results": [
+      {
+        "assertion_id": "no-invented-statistics",
+        "result": "fail",
+        "reason": "Asserts a US Millennial population figure (~65M) not supplied in the plan; other numbers are derived from plan figures.",
+        "excerpt": "Treating ~65M people born across 15 years as one audience with one motivation compounds the risk.",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "no-deterministic-generational-behavior",
+        "result": "pass",
+        "reason": "Treats the generational claim as an unproven hypothesis to test, citing revealed behavior against it.",
+        "excerpt": "revealed behavior suggests value may win",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "flags-unsupported-sustainability-claim",
+        "result": "pass",
+        "reason": "Explicitly names the sustainability-priority claim as unsupported and contradicted.",
+        "excerpt": "\"Millennials prioritize sustainability above price and convenience\" — with no source, no first-party data",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "distinguishes-evidence-types",
+        "result": "pass",
+        "reason": "Separates assumed claims from revealed behavior and labels claims as claimed-not-proven.",
+        "excerpt": "the sustainability story is **claimed, not proven**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-strong-element",
+        "result": "pass",
+        "reason": "Identifies the email flow as genuinely strong.",
+        "excerpt": "The onboarding/refill email flow is the best thing in the plan",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-impressions-metric",
+        "result": "pass",
+        "reason": "Calls impressions the wrong metric and demands outcome measures.",
+        "excerpt": "Swap the headline: **primary = first-time customers and blended CAC**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "proposes-measurable-tests",
+        "result": "pass",
+        "reason": "Proposes A/B message test and geo holdout incrementality test.",
+        "excerpt": "**Add a lightweight incrementality read** — a geo holdout or matched-market test",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "avoids-discriminatory-targeting",
+        "result": "pass",
+        "reason": "No exclusionary or stereotype-based targeting recommended.",
+        "excerpt": null,
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "ties-verdict-to-evidence",
+        "result": "pass",
+        "reason": "Verdict grounded in specific arithmetic and plan risks.",
+        "excerpt": "It is optimized to buy 120M impressions, but the money is supposed to buy 40,000 customers at ≤$28 CAC",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "weak-customer-objective",
+        "result": "pass",
+        "reason": "Critiques the feel-good awareness objective as not addressing the real customer need (refill friction).",
+        "excerpt": "A feel-good awareness message doesn't reduce that friction.",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "single-platform-concentration",
+        "result": "pass",
+        "reason": "Flags 70% single-platform concentration as risk.",
+        "excerpt": "**Instagram doing all three funnel jobs at 70%** is single-platform concentration risk",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "reach-only-creator",
+        "result": "pass",
+        "reason": "Rejects reach-only selection; wants credibility, fit, and conversion tracking.",
+        "excerpt": "**Creator strategy is optimized for reach, not trust or conversion.**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "missing-incrementality-retention",
+        "result": "pass",
+        "reason": "Notes absence of both incrementality and retention measurement.",
+        "excerpt": "There is no holdout or incrementality design",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "cac-price-aov-contradiction",
+        "result": "pass",
+        "reason": "Surfaces break-even first order and revenue dependence on refills/retention.",
+        "excerpt": "the revenue objective is mathematically a **refill-and-retention objective**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "defensible-channel-role-recommendations",
+        "result": "pass",
+        "reason": "Calls for defined, funnel-mapped channel roles rather than asserted ones.",
+        "excerpt": "give Instagram a defined funnel role rather than all three",
+        "confidence": "medium"
+      }
+    ],
+    "totals": {
+      "pass": 14,
+      "fail": 1,
+      "uncertain": 0,
+      "total": 15
+    }
+  },
+  "skill": {
+    "output_file": "skill-output.md",
+    "graded_output_sha256": "90d47fc96f09ffac2eddb61df0f976164cba417affd57aa213d6bc28eea51d89",
+    "input_sha256": "38ce44c69c2b13d90f6f48acc58c7919033b807c201bf0fc01b81adda96fd073",
+    "assertions_sha256": "d46fa556a81f680df7501f156dafc77364035f68ac1150f81f48722abb632cc2",
+    "grader_prompt_sha256": "6e833c85c7a73c2cb942fb60ad1112ac59c0da633bc4d4df9eac40b5f6e1b21d",
+    "grader_model": "claude-opus-4-8",
+    "grader_client": "Claude Code CLI (claude --safe-mode --tools \"\" -p), fresh isolated context",
+    "results": [
+      {
+        "assertion_id": "no-invented-statistics",
+        "result": "pass",
+        "reason": "Numbers used are drawn from the plan; review explicitly avoids introducing new stats.",
+        "excerpt": "No uncited statistics introduced: No percentages, posting times, or platform rankings are asserted here as current fact",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-deterministic-generational-behavior",
+        "result": "pass",
+        "reason": "Treats cohort claim as an untested assumption/hypothesis, not deterministic fact.",
+        "excerpt": "Stereotype presented as fact: \"Millennials prioritize sustainability above price and convenience... across the entire cohort.\" This is an *Assumption*, not a *Provided fact*.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "flags-unsupported-sustainability-claim",
+        "result": "pass",
+        "reason": "Explicitly labels the sustainability-priority claim as an unsourced assumption.",
+        "excerpt": "rests on an unsourced, monolithic assumption (\"Millennials prioritize sustainability above price and convenience across the entire cohort\") that is treated as fact",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "distinguishes-evidence-types",
+        "result": "pass",
+        "reason": "Uses explicit labels: Provided fact, Assumption, Observed feature, Inference.",
+        "excerpt": "| Label | ... Assumption (presented as fact) ... Provided fact (plan's definition) ... Observed feature",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recognizes-strong-element",
+        "result": "pass",
+        "reason": "Praises the onboarding and refill-reminder email flow as strongest asset.",
+        "excerpt": "one genuinely strong, execution-ready asset: the post-purchase onboarding and refill-reminder email flow",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "challenges-impressions-metric",
+        "result": "pass",
+        "reason": "Calls impressions a vanity metric and demands CAC/incrementality/retention measures.",
+        "excerpt": "Make CAC, first purchases, and blended contribution the success criteria; demote impressions to a diagnostic.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "proposes-measurable-tests",
+        "result": "pass",
+        "reason": "Provides a structured test plan with hypotheses, metrics, and decision rules.",
+        "excerpt": "Geo holdout: matched markets on vs. off. | Incremental revenue / iROAS.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "avoids-discriminatory-targeting",
+        "result": "pass",
+        "reason": "Recommends behavior-based segments, not exclusionary or protected-class targeting.",
+        "excerpt": "Define 2–3 actionable segments (e.g., current eco/refill triers vs. price/convenience-first switchers)",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "ties-verdict-to-evidence",
+        "result": "pass",
+        "reason": "Verdict is tied to specific enumerated risks and evidence.",
+        "excerpt": "As written, this plan is unlikely to hit $2.0M profitably and carries compliance risk.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "weak-customer-objective",
+        "result": "pass",
+        "reason": "Notes plan chases an assumed value rather than the real behavior-adoption need.",
+        "excerpt": "Plan solves an assumed age-based value (\"sustainability\") rather than the stated behavior-adoption need.",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "single-platform-concentration",
+        "result": "pass",
+        "reason": "Flags 70% Instagram concentration as fragility risk.",
+        "excerpt": "Single-platform concentration + excluded search.** 70% on Instagram",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "reach-only-creator",
+        "result": "pass",
+        "reason": "Challenges reach-only selection and calls for credibility and tracked purchases.",
+        "excerpt": "change the success definition from reach to first purchases within CAC",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "missing-incrementality-retention",
+        "result": "pass",
+        "reason": "Identifies absence of incrementality design and retention/LTV measurement.",
+        "excerpt": "no holdout/geo/incrementality; no refill/retention/LTV measurement on a model that depends on them",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "cac-price-aov-contradiction",
+        "result": "pass",
+        "reason": "Surfaces break-even/loss on $24 kit at $28 CAC, profit depending on refills.",
+        "excerpt": "$28 CAC ceiling exceeds $24 first-order price → break-even/loss on first order; profit depends on refills.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "defensible-channel-role-recommendations",
+        "result": "pass",
+        "reason": "Calls for each channel role to be justified by data and customer state.",
+        "excerpt": "Map each channel to a customer state; add non-brand search for high-intent capture; justify roles with data.",
+        "confidence": "high"
+      }
+    ],
+    "totals": {
+      "pass": 15,
+      "fail": 0,
+      "uncertain": 0,
+      "total": 15
+    }
+  },
+  "totals": {
+    "baseline": {
+      "pass": 14,
+      "fail": 1,
+      "uncertain": 0,
+      "total": 15
+    },
+    "skill": {
+      "pass": 15,
+      "fail": 0,
+      "uncertain": 0,
+      "total": 15
+    }
+  }
+}
