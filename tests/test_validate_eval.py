@@ -298,6 +298,19 @@ class ValidateEvalTests(unittest.TestCase):
             "Shared and adapted", "we cover SHARED / ADAPTED elements")
         self.assertTrue(ok3)
 
+    def test_any_of_requires_token_boundaries(self):
+        # A phrase must match whole tokens, not partial words: "shared" must not
+        # match inside "unshared", nor "rate" inside "corporate"; a legitimate
+        # whole-phrase match still passes.
+        ok, _ = ve.any_of_section_present("shared", "an unshared audience")
+        self.assertFalse(ok)
+        ok, _ = ve.any_of_section_present("rate", "corporate planning")
+        self.assertFalse(ok)
+        ok, _ = ve.any_of_section_present(
+            "shared versus adapted | cross-generation comparison",
+            "## Shared Versus Adapted\nReview content")
+        self.assertTrue(ok)
+
     def test_any_of_required_absent_fails(self):
         # A required any_of deterministic assertion whose phrases are absent from
         # the skill output fails the build, like any other required structural

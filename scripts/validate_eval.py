@@ -306,7 +306,10 @@ def any_of_section_present(any_of_field, skill_text):
     normalized_output = normalize_text(skill_text)
     for phrase in phrases:
         needle = normalize_text(phrase)
-        if needle and needle in normalized_output:
+        # Pad both sides so the substring test respects token boundaries;
+        # normalize_text guarantees single-space separation, so " needle "
+        # only matches whole phrases (not "shared" inside "unshared").
+        if needle and f" {needle} " in f" {normalized_output} ":
             return True, f"matched section phrase: {phrase!r}"
     return False, "no acceptable section phrase present (any_of: " + " | ".join(phrases) + ")"
 
