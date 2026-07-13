@@ -1,0 +1,386 @@
+{
+  "baseline": {
+    "output_file": "baseline-output.md",
+    "graded_output_sha256": "1370d1c6d94726d399ef71493ebac4023354a0192032f2407161cd8392016dac",
+    "input_sha256": "45ddc82121d2c057374e8ad21fee7bb491a2a62b3214b446054f4db016aea60e",
+    "assertions_sha256": "9899102a903134cf91e240f9fdfc19e8b46156f2784143c31bcab5a42774af6f",
+    "grader_prompt_sha256": "a16b30aabd9570d6e8a7149fd9b210b1953b7557842345aaec6619eec33a60ce",
+    "grader_model": "claude-opus-4-8",
+    "grader_client": "Claude Code CLI (claude --safe-mode --tools \"\" --strict-mcp-config -p)",
+    "results": [
+      {
+        "assertion_id": "returns-insufficient-evidence-verdict",
+        "result": "pass",
+        "reason": "Explicitly states it cannot judge because no campaign material was supplied.",
+        "excerpt": "I can't tell you whether this campaign will work, because no campaign was provided.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "withholds-fit-judgment",
+        "result": "pass",
+        "reason": "Awards no fit level and reaches no will/won't-work conclusion.",
+        "excerpt": "the honest review of *this request* is: **it isn't yet reviewable.**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-invented-geography",
+        "result": "pass",
+        "reason": "No country, region, market, or language is assumed anywhere.",
+        "excerpt": null,
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-invented-category-product-offer",
+        "result": "pass",
+        "reason": "No product, category, offer, or price is invented; metrics named only as examples.",
+        "excerpt": null,
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-invented-age-range",
+        "result": "fail",
+        "reason": "Presents ages 13 and 27 as definitively Gen Z without noting cohort boundaries vary.",
+        "excerpt": "A 13-year-old and a 27-year-old are both Gen Z.",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "no-invented-channel-behavior",
+        "result": "pass",
+        "reason": "Platform behavior is framed as an unknown slice, not asserted as fact.",
+        "excerpt": "which slice (age band, life stage, income, subculture, platform behavior)",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-invented-statistics",
+        "result": "pass",
+        "reason": "No fabricated statistics, benchmarks, or research findings appear.",
+        "excerpt": null,
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "identifies-missing-audience-definition",
+        "result": "pass",
+        "reason": "Explicitly flags that the Gen Z targeting definition is absent.",
+        "excerpt": "that targeting definition is exactly what's absent here",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "identifies-missing-customer-state-need",
+        "result": "fail",
+        "reason": "Never identifies customer state or underlying customer need as unknown.",
+        "excerpt": null,
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "identifies-missing-objectives",
+        "result": "pass",
+        "reason": "Flags missing business objective/KPI, though customer objective is not distinctly named.",
+        "excerpt": "The objective + KPI \u2014 what outcome defines success, and the current baseline.",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "identifies-missing-channel-format",
+        "result": "pass",
+        "reason": "Notes campaign/creative/channel plan were not provided.",
+        "excerpt": "no brief, creative, channel plan, offer, budget, timeline, or performance data",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "identifies-missing-conversion-measurement",
+        "result": "pass",
+        "reason": "Identifies success metric/measurement as undefined and needed.",
+        "excerpt": "\"Will it work?\" has no answer without a success metric.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "lowers-confidence-for-insufficient-evidence",
+        "result": "pass",
+        "reason": "Attributes inability to judge to missing material, not a weak campaign.",
+        "excerpt": "I can't tell you whether this campaign will work, because no campaign was provided.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "separates-facts-assumptions-unknowns",
+        "result": "pass",
+        "reason": "Distinguishes the known intent from the many unknowns to evaluate.",
+        "excerpt": "The message describes an intent (\"aimed at Gen Z\") but contains zero material to evaluate",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "recommends-gathering-minimum-info",
+        "result": "pass",
+        "reason": "Advises collecting the missing items before any fit read.",
+        "excerpt": "Send the six items above (even rough drafts).",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "gives-concrete-evidence-checklist",
+        "result": "pass",
+        "reason": "Provides a specific bulleted checklist of evidence to collect.",
+        "excerpt": "The creative \u2014 actual concepts, copy, visuals, hooks (or scripts/storyboards).",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "avoids-discriminatory-or-stereotyped-targeting",
+        "result": "pass",
+        "reason": "Calls for a defined segment rather than substituting generational stereotypes.",
+        "excerpt": "who *specifically* within Gen Z, and why them",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "does-not-fabricate-campaign-plan",
+        "result": "pass",
+        "reason": "Explicitly refuses to invent a verdict or plan from nothing.",
+        "excerpt": "they're guessing and telling you what you want to hear. I won't do that.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "prioritizes-missing-inputs",
+        "result": "pass",
+        "reason": "Ranks creative plus one metric as the most valuable first inputs.",
+        "excerpt": "the single most useful thing to send first is **the creative plus the one metric you're trying to move.**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "proposes-efficient-intake-sequence",
+        "result": "pass",
+        "reason": "Gives an ordered next-step sequence and a first-item-first fallback.",
+        "excerpt": "Pick one primary KPI and one primary Gen Z segment before the creative review",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "distinguishes-cannot-judge-from-bad",
+        "result": "pass",
+        "reason": "Frames the problem as not-yet-reviewable rather than a bad campaign.",
+        "excerpt": "The gap isn't a formality \u2014 it's the whole substance.",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "suggests-safe-provisional-next-step",
+        "result": "pass",
+        "reason": "Recommends safe steps like sending drafts and picking a KPI without a verdict.",
+        "excerpt": "Pick one primary KPI and one primary Gen Z segment before the creative review",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "concise-for-thin-brief",
+        "result": "pass",
+        "reason": "Tight, structured, and proportionate to a thin request without padding.",
+        "excerpt": null,
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "notes-generation-weak-proxy",
+        "result": "pass",
+        "reason": "Notes fit depends on life stage/behavior slices, not generation alone.",
+        "excerpt": "Fit depends on which slice (age band, life stage, income, subculture, platform behavior)",
+        "confidence": "medium"
+      }
+    ],
+    "totals": {
+      "pass": 22,
+      "fail": 2,
+      "uncertain": 0,
+      "total": 24
+    }
+  },
+  "skill": {
+    "output_file": "skill-output.md",
+    "graded_output_sha256": "d6cc0ad31a4045cf5b274219a46647e7b1360073bd6c7c6a69ec45615407bcd4",
+    "input_sha256": "45ddc82121d2c057374e8ad21fee7bb491a2a62b3214b446054f4db016aea60e",
+    "assertions_sha256": "9899102a903134cf91e240f9fdfc19e8b46156f2784143c31bcab5a42774af6f",
+    "grader_prompt_sha256": "a16b30aabd9570d6e8a7149fd9b210b1953b7557842345aaec6619eec33a60ce",
+    "grader_model": "claude-opus-4-8",
+    "grader_client": "Claude Code CLI (claude --safe-mode --tools \"\" --strict-mcp-config -p)",
+    "results": [
+      {
+        "assertion_id": "returns-insufficient-evidence-verdict",
+        "result": "pass",
+        "reason": "Verdict is explicitly Insufficient evidence",
+        "excerpt": "**Insufficient evidence.** There is no campaign brief, creative, copy, plan, channel plan, offer, or data to review.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "withholds-fit-judgment",
+        "result": "pass",
+        "reason": "Awards no fit label and reaches no will/won't-work conclusion",
+        "excerpt": "A fit judgment is not possible from a one-paragraph request.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-invented-geography",
+        "result": "pass",
+        "reason": "Flags geography as missing rather than inventing it",
+        "excerpt": "No birth-year/life-stage window, geography, or language was given.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-invented-category-product-offer",
+        "result": "pass",
+        "reason": "Treats category/offer as unknown, invents nothing",
+        "excerpt": "No objective, customer state, channel, offer, category, or success metric.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-invented-age-range",
+        "result": "pass",
+        "reason": "States no birth-year window given; asserts no range as fact",
+        "excerpt": "an unqualified cohort label is not a persona and not proof of behavior; I will not attach uncited birth ranges",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-invented-channel-behavior",
+        "result": "pass",
+        "reason": "Explicitly refuses to assert platform rankings/behaviors",
+        "excerpt": "I will not attach uncited birth ranges, platform rankings, or behavioral \"facts\" to it.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "no-invented-statistics",
+        "result": "pass",
+        "reason": "No fabricated stats or benchmarks present",
+        "excerpt": "any verdict on \"will it work\" would be fabricated.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "identifies-missing-audience-definition",
+        "result": "pass",
+        "reason": "Explicitly notes Gen Z undefined beyond label",
+        "excerpt": "\"Gen Z\" is undefined and could invite stereotyping... No birth-year/life-stage window, geography, or language was given.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "identifies-missing-customer-state-need",
+        "result": "pass",
+        "reason": "Names missing customer state and need",
+        "excerpt": "Fit depends far more on customer need, moment, and conversion action than on age alone.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "identifies-missing-objectives",
+        "result": "pass",
+        "reason": "Lists campaign objective among missing items",
+        "excerpt": "No objective, customer state, channel, offer, category, or success metric.",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "identifies-missing-channel-format",
+        "result": "pass",
+        "reason": "Notes missing channel/format and that campaign wasn't provided",
+        "excerpt": "There is no campaign brief, creative, copy, plan, channel plan, offer, or data to review.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "identifies-missing-conversion-measurement",
+        "result": "pass",
+        "reason": "Flags conversion action and success metric as undefined",
+        "excerpt": "State the success metric and guardrails. The primary metric, baseline, and what \"working\" means",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "lowers-confidence-for-insufficient-evidence",
+        "result": "pass",
+        "reason": "Attributes low confidence about campaign to missing material",
+        "excerpt": "Confidence must stay low until material is shared.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "separates-facts-assumptions-unknowns",
+        "result": "pass",
+        "reason": "Labels items as Observed feature, Provided fact, Unknown",
+        "excerpt": "**Nothing to evaluate.** *(Observed feature \u2192 Unknown)*",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "recommends-gathering-minimum-info",
+        "result": "pass",
+        "reason": "Recommends gathering evidence before judging",
+        "excerpt": "**Recommended next step:** *Gather more evidence.*",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "gives-concrete-evidence-checklist",
+        "result": "pass",
+        "reason": "Provides specific itemized checklist of needed inputs",
+        "excerpt": "target cohort **definition** (birth-year/life-stage), geography, and language; product/service category; customer state / journey stage; campaign objective; channel and placement",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "avoids-discriminatory-or-stereotyped-targeting",
+        "result": "pass",
+        "reason": "Refuses stereotyping as substitute for definition",
+        "excerpt": "\"Gen Z\" is undefined and could invite stereotyping.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "does-not-fabricate-campaign-plan",
+        "result": "pass",
+        "reason": "Declines to manufacture a campaign",
+        "excerpt": "I cannot and will not manufacture a campaign to judge.",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "prioritizes-missing-inputs",
+        "result": "pass",
+        "reason": "Orders priority changes, campaign and audience first",
+        "excerpt": "Three priority changes (do these before any review)... 1. **Send the actual campaign.**",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "proposes-efficient-intake-sequence",
+        "result": "pass",
+        "reason": "Proposes a short prioritized intake request",
+        "excerpt": "I'd suggest a short intake request for the items above.",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "distinguishes-cannot-judge-from-bad",
+        "result": "pass",
+        "reason": "Separates insufficient-evidence outcome from works/fails",
+        "excerpt": "not high confidence that the campaign works or fails, but high confidence that the correct outcome is \"insufficient evidence.\"",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "suggests-safe-provisional-next-step",
+        "result": "pass",
+        "reason": "Offers intake request and a self-apply fit checklist",
+        "excerpt": "I can instead deliver a Gen Z **fit checklist and test plan** they can apply themselves",
+        "confidence": "high"
+      },
+      {
+        "assertion_id": "concise-for-thin-brief",
+        "result": "pass",
+        "reason": "Structured and proportionate, not padded with fluff",
+        "excerpt": "So the strengths/risks below describe the *request and situation*, not campaign content",
+        "confidence": "medium"
+      },
+      {
+        "assertion_id": "notes-generation-weak-proxy",
+        "result": "pass",
+        "reason": "States need/moment matter more than age alone",
+        "excerpt": "Fit depends far more on customer need, moment, and conversion action than on age alone.",
+        "confidence": "high"
+      }
+    ],
+    "totals": {
+      "pass": 24,
+      "fail": 0,
+      "uncertain": 0,
+      "total": 24
+    }
+  },
+  "totals": {
+    "baseline": {
+      "pass": 22,
+      "fail": 2,
+      "uncertain": 0,
+      "total": 24
+    },
+    "skill": {
+      "pass": 24,
+      "fail": 0,
+      "uncertain": 0,
+      "total": 24
+    }
+  }
+}
