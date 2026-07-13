@@ -34,3 +34,14 @@ The project follows Semantic Versioning. Release tags use the form `vMAJOR.MINOR
 - Explicit support for `Insufficient evidence` as a valid review verdict, with a
   dedicated thin-brief control scenario that verifies the skill withholds a fit
   judgment rather than inventing missing context.
+
+### Deferred
+
+- Cursor-, ChatGPT-, and Gemini-specific adapters or installation wrappers are
+  intentionally deferred until after `v0.1.0`. The first release ships the
+  canonical `.skill` package and the documented repository workflow.
+- A `Strong fit` positive-control evaluation is intentionally deferred until
+  after `v0.1.0`. The existing five-scenario suite validates problem detection,
+  revision guidance, safety behavior, cross-generation reasoning, and the
+  `Insufficient evidence` verdict, but does not yet include a favorable-fit
+  control.
