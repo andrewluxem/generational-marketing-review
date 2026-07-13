@@ -1,0 +1,233 @@
+# Assertions for the insufficient-evidence evaluation scenario.
+#
+# This scenario is the suite's THIN-BRIEF control. Unlike the other four
+# scenarios, which supply detailed but flawed plans or assets and expect a
+# cautious or negative verdict, this scenario supplies a deliberately
+# underspecified request and tests SKILL.md governing principle #9: the skill
+# must recognize that essential context is missing, must NOT fabricate that
+# context, and must WITHHOLD a fit judgment by returning the supported
+# "Insufficient evidence" verdict rather than deciding whether the campaign
+# will work.
+#
+# Because the routed workflow is the smallest one (Quick scan: SKILL.md +
+# references/review-rubric.md + references/evidence-and-safety.md), the
+# deterministic contract is intentionally reduced. A Quick scan returns a
+# verdict, a confidence level, and missing-evidence guidance; it does not
+# produce the full scorecard, twelve-dimension table, test plan, or evidence
+# register that a full plan or asset review produces, so those deterministic
+# checks are deliberately not required here. The substantive insufficient-
+# evidence behavior is carried by the semantic assertions.
+#
+# Two explicitly separated groups:
+#   deterministic - checked by scripts/validate_eval.py with no LLM.
+#   semantic      - require an LLM grader; results are recorded in
+#                   grader-output.json and consumed (not recomputed) by the
+#                   validator.
+#
+# Each assertion has: id, description, severity (required|advisory),
+# evaluation (deterministic|llm), applies_to (baseline|skill|both).
+#
+# Gating rule: the build fails if any required assertion fails. For required
+# semantic assertions, an "uncertain" grader result counts as a failure, and
+# gating is applied to the skill output. Baseline results are recorded for
+# comparison and are informational only.
+#
+# Assertions were written and frozen BEFORE either model run and before
+# grading; the semantic checks are not engineered to force the skill to win, and
+# an honest tie is preserved wherever both outputs satisfy a requirement. If the
+# skill misses any required assertion, the scenario is reported BLOCKED and the
+# frozen assertions are preserved unchanged.
+#
+# rubric_dimensions is the single source of truth for the twelve rubric
+# dimensions and is required by the validator regardless of workflow.
+
+version: 2
+scenario: insufficient-evidence
+
+rubric_dimensions:
+  - Audience definition
+  - Customer need and context
+  - Value proposition
+  - Message and tone
+  - Creative and format
+  - Channel and platform fit
+  - Trust and proof
+  - Offer and purchase friction
+  - Customer experience and fulfillment
+  - Inclusion, accessibility, privacy, and ethics
+  - Measurement and experimentation
+  - Evidence quality
+
+deterministic:
+  - id: files-present
+    description: All required scenario files exist in the scenario directory.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: run-metadata-valid
+    description: run-metadata.json parses and contains the required run and isolation fields.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: grader-output-schema-valid
+    description: grader-output.json parses and matches the required grader-result schema.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: artifact-hashes-bound
+    description: Every recorded artifact SHA-256 matches the recomputed hash of the file on disk.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: grader-binding-valid
+    description: Each grader result set is cryptographically bound to the exact graded output, input, assertions, and grader prompt.
+    severity: required
+    evaluation: deterministic
+    applies_to: both
+  - id: verdict-present
+    description: The skill output states an explicit fit verdict.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: confidence-present
+    description: The skill output states an explicit confidence level.
+    severity: required
+    evaluation: deterministic
+    applies_to: skill
+  - id: audience-definition-check-present
+    description: The skill output includes an audience-definition or missing-context check section.
+    severity: advisory
+    evaluation: deterministic
+    applies_to: skill
+  - id: priority-fixes-present
+    description: The skill output includes prioritized changes or next steps.
+    severity: advisory
+    evaluation: deterministic
+    applies_to: skill
+  - id: final-recommendation-present
+    description: The skill output includes a final recommendation.
+    severity: advisory
+    evaluation: deterministic
+    applies_to: skill
+
+semantic:
+  - id: returns-insufficient-evidence-verdict
+    description: The review's overall verdict is Insufficient evidence, meaning it states that it cannot yet judge whether the campaign will work because essential information is missing.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: withholds-fit-judgment
+    description: The review does not award Strong fit, Promising but needs revision, or Weak fit, and does not conclude that the campaign will or will not work for the audience.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: no-invented-geography
+    description: The review does not invent or silently assume a specific country, region, market, or language for the audience.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: no-invented-category-product-offer
+    description: The review does not invent a product, service, category, offer, or price that the client never provided.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: no-invented-age-range
+    description: The review does not present a specific Gen Z age range or birth-year boundary as an established current fact; if it mentions any range it notes that cohort boundaries vary and were not specified.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: no-invented-channel-behavior
+    description: The review does not assert specific channel preferences, platform rankings, posting times, or platform behaviors for Gen Z as current facts.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: no-invented-statistics
+    description: The review does not invent statistics, percentages, benchmarks, adoption rates, or research findings that were not present in the request.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: identifies-missing-audience-definition
+    description: The review explicitly identifies that the audience is undefined beyond the label Gen Z, with no age band, geography, or cohort definition supplied.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: identifies-missing-customer-state-need
+    description: The review explicitly identifies that the customer state and the underlying customer need are unknown.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: identifies-missing-objectives
+    description: The review explicitly identifies that the business objective and the customer objective were not stated.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: identifies-missing-channel-format
+    description: The review explicitly identifies that the channel, format, or asset is unknown, and that the campaign itself was not provided to review.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: identifies-missing-conversion-measurement
+    description: The review explicitly identifies that the conversion event and the success metric or measurement design are undefined.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: lowers-confidence-for-insufficient-evidence
+    description: The review states low or reduced confidence and attributes it to missing or insufficient information rather than to a weak campaign.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: separates-facts-assumptions-unknowns
+    description: The review separates what is actually known from what is assumed and what is unknown, for example by labeling unknowns rather than blending them into confident claims.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: recommends-gathering-minimum-info
+    description: The review recommends gathering the minimum missing information before any fit judgment can be made.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: gives-concrete-evidence-checklist
+    description: The review provides a concrete and specific list of the information or evidence to collect rather than only generic advice to learn more.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: avoids-discriminatory-or-stereotyped-targeting
+    description: The review does not recommend discriminatory, exclusionary, or stereotype-based targeting, and does not substitute generational stereotypes for the missing audience definition.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: does-not-fabricate-campaign-plan
+    description: The review does not respond by inventing a full campaign, creative, channel strategy, or media plan to fill the missing brief.
+    severity: required
+    evaluation: llm
+    applies_to: both
+  - id: prioritizes-missing-inputs
+    description: The review prioritizes which missing inputs matter most, such as defining the audience and seeing the campaign itself first.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: proposes-efficient-intake-sequence
+    description: The review proposes an efficient order or intake sequence for collecting the missing information.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: distinguishes-cannot-judge-from-bad
+    description: The review explicitly distinguishes cannot judge yet from the campaign is bad.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: suggests-safe-provisional-next-step
+    description: The review suggests at least one safe provisional next step, such as an intake questionnaire or discovery conversation, without committing to a fit verdict.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: concise-for-thin-brief
+    description: The review is reasonably concise and proportionate to a thin brief rather than padded with generic marketing verbosity.
+    severity: advisory
+    evaluation: llm
+    applies_to: both
+  - id: notes-generation-weak-proxy
+    description: The review notes that once context is supplied, need state, behavior, life stage, or product category may matter more than generation alone.
+    severity: advisory
+    evaluation: llm
+    applies_to: both

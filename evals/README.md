@@ -45,6 +45,23 @@ email). `social-asset-gen-z` is the third scenario and also exercises the
 target is written as one broad, ambiguous band — "adults 25–54" — so it tests the
 skill's **cross-generation-comparison** method rather than a single named cohort.
 
+`insufficient-evidence` is the fifth scenario and is the suite's **thin-brief
+control**. It exercises the smallest workflow — a **quick scan** — on a
+deliberately underspecified request ("review our campaign for Gen Z and tell us
+whether it will work") that supplies no campaign, audience definition, geography,
+category, offer, channel, conversion event, or success metric. It tests SKILL.md
+governing principle #9: the correct behavior is to **withhold a fit verdict** and
+return "Insufficient evidence" rather than invent the missing context. It is the
+mirror of the other four scenarios — a review that decides this campaign is good
+or bad is wrong for the same reason a review that awards a confident fit on thin
+evidence is. **"Insufficient evidence" is a valid outcome and is distinct from a
+negative campaign judgment**: the skill should say it cannot judge yet, not that
+the campaign is weak. Because a quick scan returns a verdict, a confidence level,
+and missing-evidence guidance but not the full scorecard, twelve-dimension table,
+test plan, or evidence register, this scenario's deterministic contract is
+correspondingly reduced and the insufficient-evidence behavior is carried by the
+semantic assertions.
+
 ## Broad age bands span multiple generations
 
 A target such as "adults 25–54" is not a generation. A 30-year band spans
