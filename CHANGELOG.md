@@ -6,6 +6,8 @@ The project follows Semantic Versioning. Release tags use the form `vMAJOR.MINOR
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-07-13
+
 ### Added
 
 - Public generational marketing review skill (`SKILL.md`) that reviews marketing
@@ -45,3 +47,6 @@ The project follows Semantic Versioning. Release tags use the form `vMAJOR.MINOR
   revision guidance, safety behavior, cross-generation reasoning, and the
   `Insufficient evidence` verdict, but does not yet include a favorable-fit
   control.
+
+[Unreleased]: https://github.com/andrewluxem/generational-marketing-review/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/andrewluxem/generational-marketing-review/releases/tag/v0.1.0

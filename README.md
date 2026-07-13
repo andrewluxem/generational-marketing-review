@@ -84,8 +84,9 @@ The build script creates a deterministic `.skill` archive from an explicit allow
 
 ## Versioning and releases
 
-This project is **pre-1.0**. It follows [Semantic Versioning](https://semver.org/), with release tags of the form `vMAJOR.MINOR.PATCH`. The planned first public release is `v0.1.0`. No public release has been tagged yet.
+This project is **pre-1.0** and follows [Semantic Versioning](https://semver.org/), with release tags of the form `vMAJOR.MINOR.PATCH`. The first public release is `v0.1.0`.
 
+- Latest release: [`v0.1.0`](https://github.com/andrewluxem/generational-marketing-review/releases/tag/v0.1.0)
 - Changelog: [`CHANGELOG.md`](CHANGELOG.md)
 - Versioning policy and release process: [`docs/RELEASING.md`](docs/RELEASING.md)
 
