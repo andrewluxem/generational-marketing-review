@@ -68,6 +68,25 @@ python scripts/build_skill.py
 
 The build script creates a deterministic `.skill` archive from an explicit allowlist.
 
+## Versioning and releases
+
+This project is **pre-1.0**. It follows [Semantic Versioning](https://semver.org/), with release tags of the form `vMAJOR.MINOR.PATCH`. The planned first public release is `v0.1.0`. No public release has been tagged yet.
+
+- Changelog: [`CHANGELOG.md`](CHANGELOG.md)
+- Versioning policy and release process: [`docs/RELEASING.md`](docs/RELEASING.md)
+
+Reproduce the build and validation locally:
+
+```bash
+python3 scripts/validate_structure.py
+python3 scripts/scan_public_claims.py
+python3 -m unittest discover -s tests
+python3 scripts/validate_eval.py
+python3 scripts/build_skill.py
+```
+
+The `.skill` archive is written to `dist/`, which is generated and untracked (git-ignored). The intended distributable is the `.skill` asset attached to a GitHub release, not the entire repository checkout: the repository also holds evaluation fixtures, scripts, and tests that are deliberately excluded from the package.
+
 ## License
 
 Apache-2.0. See `LICENSE`.
