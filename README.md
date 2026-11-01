@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/banner.svg" alt="generational-marketing-review: Portable agent skill for reviewing marketing plans and assets for generational audience fit"></p>
+
 # Generational Marketing Review
 
 A portable, vendor-neutral Agent Skill for reviewing marketing plans and assets through a specified generational audience lens.
